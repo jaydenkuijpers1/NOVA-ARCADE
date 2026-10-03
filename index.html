@@ -1,995 +1,1575 @@
+```html
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>NOVA ARCADE | Enter the Game</title>
-
-    <meta name="description"
-          content="Welkom bij NOVA ARCADE. Ontdek games, challenges en interactieve ervaringen.">
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #050510;
-            color: white;
-            overflow-x: hidden;
-        }
-
-        /* =========================
-           BACKGROUND
-        ========================== */
-
-        .background {
-            position: fixed;
-            inset: 0;
-            z-index: -10;
-            overflow: hidden;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(0, 200, 255, .18), transparent 30%),
-                radial-gradient(circle at 80% 70%, rgba(170, 0, 255, .18), transparent 30%),
-                #050510;
-        }
-
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: .5;
-            animation: float 10s infinite alternate ease-in-out;
-        }
-
-        .orb.one {
-            width: 300px;
-            height: 300px;
-            background: #00d9ff;
-            top: 5%;
-            left: 5%;
-        }
-
-        .orb.two {
-            width: 350px;
-            height: 350px;
-            background: #8a00ff;
-            right: 5%;
-            bottom: 5%;
-            animation-delay: -4s;
-        }
-
-        .orb.three {
-            width: 180px;
-            height: 180px;
-            background: #ff008c;
-            left: 50%;
-            top: 45%;
-            animation-delay: -7s;
-        }
-
-        @keyframes float {
-            from {
-                transform: translate(0, 0) scale(1);
-            }
-
-            to {
-                transform: translate(80px, -60px) scale(1.2);
-            }
-        }
-
-        /* =========================
-           PARTICLES
-        ========================== */
-
-        .particles {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: -5;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-            opacity: .6;
-            animation: particleMove linear infinite;
-        }
-
-        @keyframes particleMove {
-            from {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-
-            20% {
-                opacity: .7;
-            }
-
-            80% {
-                opacity: .7;
-            }
-
-            to {
-                transform: translateY(-10vh);
-                opacity: 0;
-            }
-        }
-
-        /* =========================
-           NAVBAR
-        ========================== */
-
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 7%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(15px);
-            background: rgba(5, 5, 16, .55);
-            border-bottom: 1px solid rgba(255,255,255,.08);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            color: white;
-        }
-
-        .logo span {
-            color: #00eaff;
-            text-shadow: 0 0 15px #00eaff;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        nav a {
-            color: #ddd;
-            text-decoration: none;
-            font-weight: bold;
-            transition: .3s;
-        }
-
-        nav a:hover {
-            color: #00eaff;
-            text-shadow: 0 0 12px #00eaff;
-        }
-
-        /* =========================
-           HERO
-        ========================== */
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 120px 20px 60px;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 900px;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 9px 18px;
-            border: 1px solid #00eaff;
-            border-radius: 50px;
-            color: #00eaff;
-            box-shadow: 0 0 20px rgba(0,234,255,.3);
-            margin-bottom: 25px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            50% {
-                box-shadow: 0 0 35px rgba(0,234,255,.6);
-            }
-        }
-
-        .hero h1 {
-            font-size: clamp(60px, 12vw, 150px);
-            line-height: .85;
-            font-weight: 1000;
-            letter-spacing: -5px;
-            background: linear-gradient(
-                90deg,
-                #00eaff,
-                white,
-                #a600ff,
-                #ff008c
-            );
-            background-size: 300%;
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: gradientMove 5s infinite alternate;
-        }
-
-        @keyframes gradientMove {
-            from {
-                background-position: 0%;
-            }
-
-            to {
-                background-position: 100%;
-            }
-        }
-
-        .hero p {
-            max-width: 650px;
-            margin: 30px auto;
-            font-size: 19px;
-            color: #bbb;
-            line-height: 1.7;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 16px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 900;
-            display: inline-block;
-            transition: .3s;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-main {
-            background: #00eaff;
-            color: #020208;
-            box-shadow: 0 0 25px rgba(0,234,255,.5);
-        }
-
-        .btn-main:hover {
-            transform: translateY(-5px) scale(1.04);
-            box-shadow: 0 0 45px rgba(0,234,255,.8);
-        }
-
-        .btn-second {
-            border: 1px solid rgba(255,255,255,.3);
-            color: white;
-            background: rgba(255,255,255,.05);
-        }
-
-        .btn-second:hover {
-            border-color: #a600ff;
-            box-shadow: 0 0 25px rgba(166,0,255,.4);
-            transform: translateY(-5px);
-        }
-
-        /* =========================
-           SECTIONS
-        ========================== */
-
-        section {
-            padding: 100px 7%;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-title h2 {
-            font-size: clamp(35px, 6vw, 65px);
-            margin-bottom: 15px;
-        }
-
-        .section-title p {
-            color: #aaa;
-            font-size: 17px;
-        }
-
-        /* =========================
-           GAME CARDS
-        ========================== */
-
-        .games {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .game-card {
-            position: relative;
-            padding: 35px;
-            min-height: 300px;
-            border-radius: 25px;
-            overflow: hidden;
-            background: rgba(255,255,255,.055);
-            border: 1px solid rgba(255,255,255,.12);
-            backdrop-filter: blur(15px);
-            transition: .4s;
-        }
-
-        .game-card::before {
-            content: "";
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: #00eaff;
-            filter: blur(80px);
-            opacity: .2;
-            top: -50px;
-            right: -50px;
-        }
-
-        .game-card:hover {
-            transform: translateY(-12px) rotateX(4deg);
-            border-color: #00eaff;
-            box-shadow: 0 20px 60px rgba(0,234,255,.15);
-        }
-
-        .game-icon {
-            font-size: 55px;
-            margin-bottom: 25px;
-        }
-
-        .game-card h3 {
-            font-size: 26px;
-            margin-bottom: 15px;
-        }
-
-        .game-card p {
-            color: #aaa;
-            line-height: 1.6;
-        }
-
-        .play {
-            display: inline-block;
-            margin-top: 25px;
-            color: #00eaff;
-            font-weight: bold;
-        }
-
-        /* =========================
-           STATS
-        ========================== */
-
-        .stats {
-            max-width: 1000px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-        }
-
-        .stat {
-            text-align: center;
-            padding: 35px 20px;
-            border-radius: 20px;
-            background: rgba(255,255,255,.04);
-            border: 1px solid rgba(255,255,255,.1);
-        }
-
-        .stat h3 {
-            font-size: 45px;
-            color: #00eaff;
-            text-shadow: 0 0 20px rgba(0,234,255,.5);
-        }
-
-        .stat p {
-            color: #aaa;
-            margin-top: 8px;
-        }
-
-        /* =========================
-           CHALLENGE
-        ========================== */
-
-        .challenge {
-            max-width: 900px;
-            margin: auto;
-            text-align: center;
-            padding: 70px 30px;
-            border-radius: 35px;
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(0,234,255,.08),
-                    rgba(166,0,255,.08)
-                );
-            border: 1px solid rgba(255,255,255,.15);
-        }
-
-        .challenge h2 {
-            font-size: 45px;
-            margin-bottom: 15px;
-        }
-
-        .challenge p {
-            color: #aaa;
-            margin-bottom: 30px;
-        }
-
-        #challengeResult {
-            margin-top: 25px;
-            min-height: 30px;
-            color: #00eaff;
-            font-weight: bold;
-        }
-
-        /* =========================
-           CONTACT
-        ========================== */
-
-        .contact-box {
-            max-width: 800px;
-            margin: auto;
-            text-align: center;
-            padding: 60px 30px;
-            border-radius: 30px;
-            background: rgba(255,255,255,.05);
-            border: 1px solid rgba(255,255,255,.12);
-        }
-
-        .contact-box h2 {
-            font-size: 45px;
-            margin-bottom: 20px;
-        }
-
-        .phone {
-            display: inline-block;
-            margin: 25px 0;
-            font-size: 30px;
-            color: #00eaff;
-            text-decoration: none;
-            font-weight: bold;
-            text-shadow: 0 0 15px rgba(0,234,255,.5);
-        }
-
-        /* =========================
-           FOOTER
-        ========================== */
-
-        footer {
-            text-align: center;
-            padding: 35px;
-            color: #777;
-            border-top: 1px solid rgba(255,255,255,.08);
-        }
-
-        /* =========================
-           SCROLL REVEAL
-        ========================== */
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: 1s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* =========================
-           RESPONSIVE
-        ========================== */
-
-        @media (max-width: 700px) {
-
-            nav {
-                padding: 15px 20px;
-            }
-
-            nav ul {
-                display: none;
-            }
-
-            .hero h1 {
-                letter-spacing: -3px;
-            }
-
-            section {
-                padding: 75px 20px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NOVA ARCADE | Play Everything</title>
+
+<meta name="description" content="NOVA ARCADE - Speel snelle, leuke en uitdagende browsergames.">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#050510;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* BACKGROUND */
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(0,200,255,.18),transparent 30%),
+        radial-gradient(circle at 80% 70%,rgba(170,0,255,.18),transparent 30%),
+        #050510;
+}
+
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.5;
+    animation:float 10s infinite alternate ease-in-out;
+}
+
+.orb.one{
+    width:300px;
+    height:300px;
+    background:#00d9ff;
+    top:5%;
+    left:5%;
+}
+
+.orb.two{
+    width:350px;
+    height:350px;
+    background:#8a00ff;
+    right:5%;
+    bottom:5%;
+}
+
+.orb.three{
+    width:180px;
+    height:180px;
+    background:#ff008c;
+    left:50%;
+    top:45%;
+}
+
+@keyframes float{
+    from{transform:translate(0,0) scale(1)}
+    to{transform:translate(80px,-60px) scale(1.2)}
+}
+
+/* PARTICLES */
+
+.particles{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:-5;
+}
+
+.particle{
+    position:absolute;
+    width:3px;
+    height:3px;
+    background:white;
+    border-radius:50%;
+    animation:particleMove linear infinite;
+}
+
+@keyframes particleMove{
+    from{
+        transform:translateY(100vh);
+        opacity:0;
+    }
+    20%{opacity:.7}
+    80%{opacity:.7}
+    to{
+        transform:translateY(-10vh);
+        opacity:0;
+    }
+}
+
+/* NAV */
+
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:20px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:1000;
+    backdrop-filter:blur(15px);
+    background:rgba(5,5,16,.65);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.logo{
+    font-size:24px;
+    font-weight:900;
+    letter-spacing:3px;
+}
+
+.logo span{
+    color:#00eaff;
+    text-shadow:0 0 15px #00eaff;
+}
+
+nav ul{
+    display:flex;
+    list-style:none;
+    gap:30px;
+}
+
+nav a{
+    color:#ddd;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.3s;
+}
+
+nav a:hover{
+    color:#00eaff;
+    text-shadow:0 0 12px #00eaff;
+}
+
+/* HERO */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:120px 20px 60px;
+}
+
+.hero-content{
+    max-width:900px;
+}
+
+.badge{
+    display:inline-block;
+    padding:9px 18px;
+    border:1px solid #00eaff;
+    border-radius:50px;
+    color:#00eaff;
+    box-shadow:0 0 20px rgba(0,234,255,.3);
+    margin-bottom:25px;
+}
+
+.hero h1{
+    font-size:clamp(60px,12vw,150px);
+    line-height:.85;
+    font-weight:1000;
+    letter-spacing:-5px;
+    background:linear-gradient(
+        90deg,
+        #00eaff,
+        white,
+        #a600ff,
+        #ff008c
+    );
+    background-size:300%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:gradientMove 5s infinite alternate;
+}
+
+@keyframes gradientMove{
+    from{background-position:0%}
+    to{background-position:100%}
+}
+
+.hero p{
+    max-width:650px;
+    margin:30px auto;
+    font-size:19px;
+    color:#bbb;
+    line-height:1.7;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    padding:15px 28px;
+    border-radius:50px;
+    border:none;
+    text-decoration:none;
+    font-weight:900;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-main{
+    background:#00eaff;
+    color:#020208;
+    box-shadow:0 0 25px rgba(0,234,255,.5);
+}
+
+.btn-main:hover{
+    transform:translateY(-5px) scale(1.04);
+    box-shadow:0 0 45px rgba(0,234,255,.8);
+}
+
+.btn-second{
+    border:1px solid rgba(255,255,255,.3);
+    color:white;
+    background:rgba(255,255,255,.05);
+}
+
+.btn-second:hover{
+    border-color:#a600ff;
+    box-shadow:0 0 25px rgba(166,0,255,.4);
+}
+
+/* SECTIONS */
+
+section{
+    padding:100px 7%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.section-title h2{
+    font-size:clamp(35px,6vw,65px);
+    margin-bottom:15px;
+}
+
+.section-title p{
+    color:#aaa;
+}
+
+/* GAME GRID */
+
+.games{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+    max-width:1250px;
+    margin:auto;
+}
+
+.game-card{
+    position:relative;
+    padding:30px;
+    min-height:330px;
+    border-radius:25px;
+    overflow:hidden;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(15px);
+    transition:.4s;
+}
+
+.game-card:hover{
+    transform:translateY(-12px);
+    border-color:#00eaff;
+    box-shadow:0 20px 60px rgba(0,234,255,.15);
+}
+
+.game-icon{
+    font-size:55px;
+    margin-bottom:20px;
+}
+
+.game-card h3{
+    font-size:25px;
+    margin-bottom:12px;
+}
+
+.game-card p{
+    color:#aaa;
+    line-height:1.6;
+}
+
+.play{
+    position:absolute;
+    bottom:25px;
+    left:30px;
+    color:#00eaff;
+    font-weight:bold;
+}
+
+.game-button{
+    position:absolute;
+    bottom:20px;
+    right:20px;
+    background:#00eaff;
+    border:none;
+    padding:10px 17px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    background:rgba(0,0,0,.82);
+    backdrop-filter:blur(12px);
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:min(850px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#09091a;
+    border:1px solid #00eaff;
+    border-radius:30px;
+    padding:35px;
+    box-shadow:0 0 60px rgba(0,234,255,.25);
+    position:relative;
+    text-align:center;
+}
+
+.close{
+    position:absolute;
+    top:15px;
+    right:20px;
+    font-size:28px;
+    cursor:pointer;
+    color:#aaa;
+}
+
+.close:hover{
+    color:white;
+}
+
+.game-area{
+    margin-top:25px;
+    min-height:300px;
+    border-radius:20px;
+    background:#05050d;
+    border:1px solid rgba(255,255,255,.1);
+    padding:25px;
+    position:relative;
+    overflow:hidden;
+}
+
+.score{
+    color:#00eaff;
+    font-size:22px;
+    font-weight:bold;
+    margin:15px;
+}
+
+/* GENERAL GAME */
+
+.big-button{
+    font-size:22px;
+    padding:18px 30px;
+    border-radius:15px;
+    border:none;
+    background:#00eaff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.big-button:hover{
+    transform:scale(1.05);
+}
+
+/* AIM */
+
+.target{
+    position:absolute;
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#ff008c;
+    box-shadow:0 0 25px #ff008c;
+    cursor:pointer;
+}
+
+/* COLOR */
+
+.color-box{
+    width:150px;
+    height:150px;
+    margin:20px auto;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+/* DODGE */
+
+.dodge-player{
+    width:40px;
+    height:40px;
+    background:#00eaff;
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:10px;
+}
+
+.enemy{
+    position:absolute;
+    width:35px;
+    height:35px;
+    background:#ff0055;
+    border-radius:8px;
+}
+
+/* MEMORY */
+
+.memory-grid{
+    display:grid;
+    grid-template-columns:repeat(4,60px);
+    gap:10px;
+    justify-content:center;
+}
+
+.memory-tile{
+    width:60px;
+    height:60px;
+    border-radius:10px;
+    background:#17172c;
+    cursor:pointer;
+    border:1px solid #333;
+}
+
+.memory-tile.active{
+    background:#00eaff;
+    box-shadow:0 0 20px #00eaff;
+}
+
+/* NUMBER */
+
+.number-grid{
+    display:grid;
+    grid-template-columns:repeat(4,65px);
+    gap:10px;
+    justify-content:center;
+}
+
+.number-button{
+    height:65px;
+    border:none;
+    border-radius:10px;
+    background:#16162b;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.number-button:hover{
+    background:#00eaff;
+    color:#000;
+}
+
+/* RUNNER */
+
+.runner{
+    width:45px;
+    height:45px;
+    background:#00eaff;
+    position:absolute;
+    bottom:20px;
+    left:50px;
+    border-radius:10px;
+}
+
+.runner-obstacle{
+    position:absolute;
+    width:35px;
+    height:55px;
+    background:#ff0055;
+    bottom:20px;
+    right:-50px;
+}
+
+/* STATS */
+
+.stats{
+    max-width:1000px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:20px;
+}
+
+.stat{
+    text-align:center;
+    padding:35px 20px;
+    border-radius:20px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.stat h3{
+    font-size:45px;
+    color:#00eaff;
+    text-shadow:0 0 20px rgba(0,234,255,.5);
+}
+
+.stat p{
+    color:#aaa;
+    margin-top:8px;
+}
+
+/* CONTACT */
+
+.contact-box{
+    max-width:800px;
+    margin:auto;
+    text-align:center;
+    padding:60px 30px;
+    border-radius:30px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.12);
+}
+
+.contact-box h2{
+    font-size:45px;
+    margin-bottom:20px;
+}
+
+.phone{
+    display:inline-block;
+    margin:25px 0;
+    font-size:30px;
+    color:#00eaff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+/* FOOTER */
+
+footer{
+    text-align:center;
+    padding:35px;
+    color:#777;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+/* REVEAL */
+
+.reveal{
+    opacity:0;
+    transform:translateY(40px);
+    transition:1s;
+}
+
+.reveal.active{
+    opacity:1;
+    transform:translateY(0);
+}
+
+@media(max-width:700px){
+
+    nav ul{
+        display:none;
+    }
+
+    nav{
+        padding:15px 20px;
+    }
+
+    section{
+        padding:75px 20px;
+    }
+
+    .hero h1{
+        letter-spacing:-3px;
+    }
+
+    .modal-box{
+        padding:25px 15px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- BACKGROUND -->
-    <div class="background">
-        <div class="orb one"></div>
-        <div class="orb two"></div>
-        <div class="orb three"></div>
-    </div>
+<div class="background">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+</div>
 
-    <div class="particles" id="particles"></div>
+<div class="particles" id="particles"></div>
 
-    <!-- NAVIGATION -->
-    <nav>
-        <div class="logo">NOVA<span>ARCADE</span></div>
+<nav>
+    <div class="logo">NOVA<span>ARCADE</span></div>
 
-        <ul>
-            <li><a href="#games">Games</a></li>
-            <li><a href="#stats">Stats</a></li>
-            <li><a href="#challenge">Challenge</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+    <ul>
+        <li><a href="#games">Games</a></li>
+        <li><a href="#stats">Stats</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 
-    <!-- HERO -->
-    <header class="hero">
+<header class="hero">
 
-        <div class="hero-content">
+    <div class="hero-content">
 
-            <div class="badge">
-                ⚡ THE NEXT LEVEL STARTS HERE
-            </div>
+        <div class="badge">⚡ WELCOME TO NOVA ARCADE</div>
 
-            <h1>NOVA<br>ARCADE</h1>
-
-            <p>
-                Stap binnen in een wereld vol challenges,
-                snelheid en fun. Ontdek nieuwe games,
-                verbreek records en laat zien wat jij kunt.
-            </p>
-
-            <div class="buttons">
-
-                <a href="#games" class="btn btn-main">
-                    🎮 Ontdek Games
-                </a>
-
-                <a href="#challenge" class="btn btn-second">
-                    ⚡ Start Challenge
-                </a>
-
-            </div>
-
-        </div>
-
-    </header>
-
-
-    <!-- GAMES -->
-    <section id="games">
-
-        <div class="section-title reveal">
-
-            <h2>Choose Your Game</h2>
-
-            <p>
-                Welke challenge ga jij vandaag proberen?
-            </p>
-
-        </div>
-
-        <div class="games">
-
-            <div class="game-card reveal">
-
-                <div class="game-icon">⚡</div>
-
-                <h3>Reaction Rush</h3>
-
-                <p>
-                    Hoe snel kun jij reageren?
-                    Test je reflexen en probeer
-                    je eigen record te verbreken.
-                </p>
-
-                <span class="play">
-                    COMING SOON →
-                </span>
-
-            </div>
-
-
-            <div class="game-card reveal">
-
-                <div class="game-icon">🧠</div>
-
-                <h3>Memory Matrix</h3>
-
-                <p>
-                    Onthoud de patronen,
-                    maak zo min mogelijk fouten
-                    en bereik de hoogste score.
-                </p>
-
-                <span class="play">
-                    COMING SOON →
-                </span>
-
-            </div>
-
-
-            <div class="game-card reveal">
-
-                <div class="game-icon">🚀</div>
-
-                <h3>Speed Run</h3>
-
-                <p>
-                    Alles draait om snelheid.
-                    Ben jij snel genoeg om
-                    de finish te bereiken?
-                </p>
-
-                <span class="play">
-                    COMING SOON →
-                </span>
-
-            </div>
-
-
-            <div class="game-card reveal">
-
-                <div class="game-icon">🎯</div>
-
-                <h3>Perfect Aim</h3>
-
-                <p>
-                    Focus. Richt. Klik.
-                    Probeer zoveel mogelijk
-                    targets te raken.
-                </p>
-
-                <span class="play">
-                    COMING SOON →
-                </span>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- STATS -->
-    <section id="stats">
-
-        <div class="section-title reveal">
-
-            <h2>The Numbers</h2>
-
-            <p>
-                NOVA is gemaakt voor mensen die van challenges houden.
-            </p>
-
-        </div>
-
-        <div class="stats">
-
-            <div class="stat reveal">
-                <h3 class="counter" data-target="4">0</h3>
-                <p>Games</p>
-            </div>
-
-            <div class="stat reveal">
-                <h3 class="counter" data-target="100">0</h3>
-                <p>Challenges</p>
-            </div>
-
-            <div class="stat reveal">
-                <h3 class="counter" data-target="999">0</h3>
-                <p>High Scores</p>
-            </div>
-
-            <div class="stat reveal">
-                <h3 class="counter" data-target="24">0</h3>
-                <p>Hours Fun</p>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- CHALLENGE -->
-    <section id="challenge">
-
-        <div class="challenge reveal">
-
-            <h2>⚡ QUICK CHALLENGE</h2>
-
-            <p>
-                Klik zo snel mogelijk op de knop
-                zodra hij verschijnt.
-            </p>
-
-            <button class="btn btn-main" id="challengeButton">
-                START CHALLENGE
-            </button>
-
-            <div id="challengeResult">
-                Klaar?
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- CONTACT -->
-    <section id="contact">
-
-        <div class="contact-box reveal">
-
-            <h2>Let's Connect</h2>
-
-            <p>
-                Heb je een vraag, idee of wil je contact opnemen?
-            </p>
-
-            <a class="phone" href="tel:061985623">
-                📞 061985623
-            </a>
-
-            <br>
-
-            <a href="tel:061985623" class="btn btn-main">
-                Bel nu
-            </a>
-
-        </div>
-
-    </section>
-
-
-    <!-- FOOTER -->
-    <footer>
+        <h1>NOVA<br>ARCADE</h1>
 
         <p>
-            © 2026 NOVA ARCADE — Built for the next level.
+            Speel snelle challenges, verbreek records
+            en ontdek hoeveel games jij kunt winnen.
         </p>
 
-    </footer>
+        <div class="buttons">
+            <a href="#games" class="btn btn-main">
+                🎮 PLAY NOW
+            </a>
+
+            <a href="#contact" class="btn btn-second">
+                CONTACT
+            </a>
+        </div>
+
+    </div>
+
+</header>
 
 
-    <script>
+<section id="games">
 
-        /* =========================
-           PARTICLES
-        ========================== */
+    <div class="section-title reveal">
+        <h2>🎮 ALL GAMES</h2>
+        <p>Kies een game en probeer jouw highscore te verbreken.</p>
+    </div>
 
-        const particleContainer =
-            document.getElementById("particles");
+    <div class="games">
 
-        for (let i = 0; i < 80; i++) {
+        <div class="game-card reveal">
+            <div class="game-icon">⚡</div>
+            <h3>Reaction Rush</h3>
+            <p>Klik zo snel mogelijk zodra het signaal verschijnt.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('reaction')">PLAY</button>
+        </div>
 
-            const particle =
-                document.createElement("div");
+        <div class="game-card reveal">
+            <div class="game-icon">🧠</div>
+            <h3>Memory Matrix</h3>
+            <p>Onthoud welke vakjes oplichten.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('memory')">PLAY</button>
+        </div>
 
-            particle.classList.add("particle");
+        <div class="game-card reveal">
+            <div class="game-icon">🎯</div>
+            <h3>Perfect Aim</h3>
+            <p>Raak zoveel mogelijk targets.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('aim')">PLAY</button>
+        </div>
 
-            particle.style.left =
-                Math.random() * 100 + "%";
+        <div class="game-card reveal">
+            <div class="game-icon">🚀</div>
+            <h3>Speed Run</h3>
+            <p>Ren zo lang mogelijk zonder obstakels te raken.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('runner')">PLAY</button>
+        </div>
 
-            particle.style.animationDuration =
-                (5 + Math.random() * 10) + "s";
+        <div class="game-card reveal">
+            <div class="game-icon">🟢</div>
+            <h3>Color Match</h3>
+            <p>Klik op de juiste kleur voordat de tijd voorbij is.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('color')">PLAY</button>
+        </div>
 
-            particle.style.animationDelay =
-                Math.random() * 10 + "s";
+        <div class="game-card reveal">
+            <div class="game-icon">🔢</div>
+            <h3>Number Rush</h3>
+            <p>Klik de nummers in de juiste volgorde.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('number')">PLAY</button>
+        </div>
 
-            particle.style.opacity =
-                Math.random();
+        <div class="game-card reveal">
+            <div class="game-icon">🧱</div>
+            <h3>Break The Blocks</h3>
+            <p>Breek zoveel mogelijk blokken.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('blocks')">PLAY</button>
+        </div>
 
-            particleContainer.appendChild(particle);
+        <div class="game-card reveal">
+            <div class="game-icon">💎</div>
+            <h3>Coin Collector</h3>
+            <p>Verzamel zoveel mogelijk coins.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('coins')">PLAY</button>
+        </div>
+
+        <div class="game-card reveal">
+            <div class="game-icon">🏃</div>
+            <h3>Endless Runner</h3>
+            <p>Spring over obstakels en blijf rennen.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('runner')">PLAY</button>
+        </div>
+
+        <div class="game-card reveal">
+            <div class="game-icon">👑</div>
+            <h3>Boss Challenge</h3>
+            <p>De ultieme challenge. Versla de boss.</p>
+            <span class="play">PLAY →</span>
+            <button class="game-button" onclick="openGame('boss')">PLAY</button>
+        </div>
+
+    </div>
+</section>
+
+
+<section id="stats">
+
+    <div class="section-title reveal">
+        <h2>🏆 NOVA STATS</h2>
+        <p>Hoe groot wordt de arcade?</p>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat reveal">
+            <h3>10</h3>
+            <p>Games</p>
+        </div>
+
+        <div class="stat reveal">
+            <h3>∞</h3>
+            <p>Challenges</p>
+        </div>
+
+        <div class="stat reveal">
+            <h3>⚡</h3>
+            <p>Speed</p>
+        </div>
+
+        <div class="stat reveal">
+            <h3>🏆</h3>
+            <p>High Scores</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section id="contact">
+
+    <div class="contact-box reveal">
+
+        <h2>📞 CONTACT</h2>
+
+        <p>Heb je een vraag of een idee voor een nieuwe game?</p>
+
+        <a href="tel:061985623" class="phone">
+            061985623
+        </a>
+
+        <br>
+
+        <a href="tel:061985623" class="btn btn-main">
+            BEL NU
+        </a>
+
+    </div>
+
+</section>
+
+
+<footer>
+    © 2026 NOVA ARCADE — PLAY. COMPETE. REPEAT.
+</footer>
+
+
+<!-- GAME MODAL -->
+
+<div class="modal" id="gameModal">
+
+    <div class="modal-box">
+
+        <span class="close" onclick="closeGame()">✕</span>
+
+        <h2 id="gameTitle">Game</h2>
+
+        <div class="score" id="gameScore">Score: 0</div>
+
+        <div class="game-area" id="gameArea"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* PARTICLES */
+
+const particleContainer =
+document.getElementById("particles");
+
+for(let i=0;i<80;i++){
+
+    const p=document.createElement("div");
+
+    p.className="particle";
+
+    p.style.left=Math.random()*100+"%";
+
+    p.style.animationDuration=
+    (5+Math.random()*10)+"s";
+
+    p.style.animationDelay=
+    Math.random()*10+"s";
+
+    particleContainer.appendChild(p);
+}
+
+
+/* REVEAL */
+
+const reveals=document.querySelectorAll(".reveal");
+
+function reveal(){
+
+    reveals.forEach(el=>{
+
+        if(el.getBoundingClientRect().top <
+           window.innerHeight-80){
+
+            el.classList.add("active");
         }
 
+    });
+}
 
-        /* =========================
-           SCROLL REVEAL
-        ========================== */
+window.addEventListener("scroll",reveal);
 
-        const reveals =
-            document.querySelectorAll(".reveal");
+reveal();
 
-        function revealOnScroll() {
 
-            reveals.forEach(element => {
+/* MODAL */
 
-                const windowHeight =
-                    window.innerHeight;
+const modal=document.getElementById("gameModal");
+const area=document.getElementById("gameArea");
+const title=document.getElementById("gameTitle");
+const scoreDisplay=document.getElementById("gameScore");
 
-                const elementTop =
-                    element.getBoundingClientRect().top;
+let gameTimer;
+let gameScore=0;
 
-                if (elementTop < windowHeight - 100) {
-                    element.classList.add("active");
+function openGame(game){
+
+    modal.style.display="flex";
+
+    clearInterval(gameTimer);
+
+    area.innerHTML="";
+    gameScore=0;
+    scoreDisplay.textContent="Score: 0";
+
+    if(game==="reaction") reactionGame();
+    if(game==="memory") memoryGame();
+    if(game==="aim") aimGame();
+    if(game==="color") colorGame();
+    if(game==="number") numberGame();
+    if(game==="blocks") blocksGame();
+    if(game==="coins") coinsGame();
+    if(game==="runner") runnerGame();
+    if(game==="boss") bossGame();
+}
+
+function closeGame(){
+
+    modal.style.display="none";
+    clearInterval(gameTimer);
+}
+
+
+/* REACTION */
+
+function reactionGame(){
+
+    title.textContent="⚡ Reaction Rush";
+
+    area.innerHTML=`
+        <p>Wacht op GO...</p>
+        <br>
+        <button class="big-button" id="reactionButton">
+            WAIT...
+        </button>
+        <br><br>
+        <p id="reactionText"></p>
+    `;
+
+    const btn=document.getElementById("reactionButton");
+    const text=document.getElementById("reactionText");
+
+    let ready=false;
+    let start=0;
+
+    const delay=1500+Math.random()*3500;
+
+    gameTimer=setTimeout(()=>{
+
+        ready=true;
+        start=Date.now();
+
+        btn.textContent="CLICK NOW!";
+        btn.style.background="#ff008c";
+
+    },delay);
+
+    btn.onclick=()=>{
+
+        if(!ready){
+
+            clearTimeout(gameTimer);
+
+            text.textContent=
+            "Te vroeg! Probeer opnieuw.";
+
+            return;
+        }
+
+        const time=Date.now()-start;
+
+        text.textContent=
+        "🔥 "+time+" ms!";
+
+        btn.textContent="PLAY AGAIN";
+        ready=false;
+    };
+}
+
+
+/* MEMORY */
+
+function memoryGame(){
+
+    title.textContent="🧠 Memory Matrix";
+
+    area.innerHTML=`
+        <p>Onthoud de opgelichte vakjes.</p>
+        <br>
+        <div class="memory-grid" id="memoryGrid"></div>
+        <br>
+        <p id="memoryText"></p>
+    `;
+
+    const grid=document.getElementById("memoryGrid");
+    const text=document.getElementById("memoryText");
+
+    let tiles=[];
+
+    for(let i=0;i<16;i++){
+
+        const tile=document.createElement("div");
+
+        tile.className="memory-tile";
+
+        tile.dataset.index=i;
+
+        grid.appendChild(tile);
+
+        tiles.push(tile);
+    }
+
+    let sequence=[];
+
+    while(sequence.length<4){
+
+        const n=Math.floor(Math.random()*16);
+
+        if(!sequence.includes(n))
+            sequence.push(n);
+    }
+
+    sequence.forEach(index=>{
+
+        tiles[index].classList.add("active");
+
+    });
+
+    setTimeout(()=>{
+
+        tiles.forEach(t=>
+            t.classList.remove("active")
+        );
+
+    },1200);
+
+    let selected=[];
+
+    tiles.forEach(tile=>{
+
+        tile.onclick=()=>{
+
+            const index=
+            Number(tile.dataset.index);
+
+            if(selected.includes(index)) return;
+
+            selected.push(index);
+
+            tile.classList.add("active");
+
+            if(!sequence.includes(index)){
+
+                text.textContent=
+                "❌ Fout! Probeer opnieuw.";
+
+                return;
+            }
+
+            if(selected.length===sequence.length){
+
+                text.textContent=
+                "🏆 Perfect! Alles goed!";
+            }
+
+        };
+
+    });
+}
+
+
+/* AIM */
+
+function aimGame(){
+
+    title.textContent="🎯 Perfect Aim";
+
+    area.innerHTML=`
+        <p>Klik zoveel mogelijk targets in 20 seconden!</p>
+        <br>
+        <div id="aimTimer">20</div>
+    `;
+
+    gameScore=0;
+
+    let time=20;
+
+    const timer=document.getElementById("aimTimer");
+
+    function spawn(){
+
+        const old=document.querySelector(".target");
+
+        if(old) old.remove();
+
+        const target=document.createElement("div");
+
+        target.className="target";
+
+        target.style.left=
+        Math.random()*85+"%";
+
+        target.style.top=
+        50+Math.random()*35+"%";
+
+        target.onclick=()=>{
+
+            gameScore++;
+
+            scoreDisplay.textContent=
+            "Score: "+gameScore;
+
+            spawn();
+        };
+
+        area.appendChild(target);
+    }
+
+    spawn();
+
+    gameTimer=setInterval(()=>{
+
+        time--;
+
+        timer.textContent=time;
+
+        if(time<=0){
+
+            clearInterval(gameTimer);
+
+            const target=document.querySelector(".target");
+
+            if(target) target.remove();
+
+            timer.textContent=
+            "TIME UP! Score: "+gameScore;
+        }
+
+    },1000);
+}
+
+
+/* COLOR */
+
+function colorGame(){
+
+    title.textContent="🟢 Color Match";
+
+    const colors=[
+        "red","blue","green","yellow",
+        "purple","orange"
+    ];
+
+    let correct=
+    colors[Math.floor(Math.random()*colors.length)];
+
+    area.innerHTML=`
+        <p>Find the color:</p>
+        <h2 id="colorName">${correct.toUpperCase()}</h2>
+        <div class="color-box" id="colorBox"></div>
+        <p id="colorResult"></p>
+    `;
+
+    const box=document.getElementById("colorBox");
+    const result=document.getElementById("colorResult");
+
+    box.style.background=correct;
+
+    box.onclick=()=>{
+
+        result.textContent=
+        "🔥 Correct!";
+
+        gameScore++;
+
+        scoreDisplay.textContent=
+        "Score: "+gameScore;
+
+        colorGame();
+    };
+}
+
+
+/* NUMBER */
+
+function numberGame(){
+
+    title.textContent="🔢 Number Rush";
+
+    let numbers=[
+        1,2,3,4,5,6,7,8,
+        9,10,11,12,13,14,15,16
+    ];
+
+    numbers.sort(()=>Math.random()-.5);
+
+    area.innerHTML=`
+        <p>Klik de nummers van 1 tot 16.</p>
+        <br>
+        <div class="number-grid" id="numberGrid"></div>
+        <br>
+        <p id="numberResult"></p>
+    `;
+
+    const grid=document.getElementById("numberGrid");
+    const result=document.getElementById("numberResult");
+
+    let next=1;
+
+    numbers.forEach(n=>{
+
+        const btn=document.createElement("button");
+
+        btn.className="number-button";
+        btn.textContent=n;
+
+        btn.onclick=()=>{
+
+            if(n===next){
+
+                btn.style.opacity=".3";
+                btn.disabled=true;
+
+                next++;
+
+                if(next===17){
+
+                    result.textContent=
+                    "🏆 You completed it!";
                 }
 
-            });
+            }else{
 
+                result.textContent=
+                "❌ Wrong number!";
+            }
+
+        };
+
+        grid.appendChild(btn);
+    });
+}
+
+
+/* BLOCKS */
+
+function blocksGame(){
+
+    title.textContent="🧱 Break The Blocks";
+
+    area.innerHTML=`
+        <p>Klik alle blokken zo snel mogelijk!</p>
+        <br>
+        <div id="blockGrid"
+        style="
+        display:grid;
+        grid-template-columns:repeat(5,50px);
+        gap:8px;
+        justify-content:center;
+        ">
+        </div>
+        <p id="blockResult"></p>
+    `;
+
+    const grid=document.getElementById("blockGrid");
+    const result=document.getElementById("blockResult");
+
+    let remaining=20;
+
+    for(let i=0;i<20;i++){
+
+        const block=document.createElement("button");
+
+        block.style.width="50px";
+        block.style.height="50px";
+        block.style.background="#8a00ff";
+        block.style.border="none";
+        block.style.borderRadius="8px";
+        block.style.cursor="pointer";
+
+        block.onclick=()=>{
+
+            block.remove();
+
+            remaining--;
+
+            if(remaining===0){
+
+                result.textContent=
+                "💥 ALL BLOCKS DESTROYED!";
+            }
+
+        };
+
+        grid.appendChild(block);
+    }
+}
+
+
+/* COINS */
+
+function coinsGame(){
+
+    title.textContent="💎 Coin Collector";
+
+    area.innerHTML=`
+        <p>Verzamel zoveel mogelijk coins!</p>
+        <br>
+        <div id="coinArea"
+        style="height:230px;position:relative;">
+        </div>
+        <p id="coinText">Coins: 0</p>
+    `;
+
+    const coinArea=
+    document.getElementById("coinArea");
+
+    const text=
+    document.getElementById("coinText");
+
+    let coins=0;
+
+    function spawnCoin(){
+
+        const coin=document.createElement("div");
+
+        coin.textContent="💎";
+
+        coin.style.position="absolute";
+        coin.style.fontSize="35px";
+        coin.style.cursor="pointer";
+
+        coin.style.left=
+        Math.random()*85+"%";
+
+        coin.style.top=
+        Math.random()*80+"%";
+
+        coin.onclick=()=>{
+
+            coins++;
+
+            text.textContent=
+            "Coins: "+coins;
+
+            coin.remove();
+
+            spawnCoin();
+        };
+
+        coinArea.appendChild(coin);
+    }
+
+    for(let i=0;i<5;i++)
+        spawnCoin();
+}
+
+
+/* RUNNER */
+
+function runnerGame(){
+
+    title.textContent="🏃 Endless Runner";
+
+    area.innerHTML=`
+        <p>Druk op SPACE om te springen!</p>
+
+        <div style="
+        height:220px;
+        position:relative;
+        overflow:hidden;
+        background:#09091b;
+        margin-top:15px;
+        " id="runnerArea">
+
+            <div class="runner" id="runner"></div>
+
+        </div>
+
+        <p id="runnerText">
+        Score: 0
+        </p>
+    `;
+
+    const runner=
+    document.getElementById("runner");
+
+    const runnerArea=
+    document.getElementById("runnerArea");
+
+    const text=
+    document.getElementById("runnerText");
+
+    let jumping=false;
+    let score=0;
+    let gameOver=false;
+
+    function jump(){
+
+        if(jumping || gameOver) return;
+
+        jumping=true;
+
+        runner.style.bottom="120px";
+
+        setTimeout(()=>{
+
+            runner.style.bottom="20px";
+
+            setTimeout(()=>{
+                jumping=false;
+            },250);
+
+        },400);
+    }
+
+    document.onkeydown=e=>{
+
+        if(e.code==="Space")
+            jump();
+    };
+
+    gameTimer=setInterval(()=>{
+
+        if(gameOver) return;
+
+        const obstacle=
+        document.createElement("div");
+
+        obstacle.className=
+        "runner-obstacle";
+
+        runnerArea.appendChild(obstacle);
+
+        let position=
+        runnerArea.clientWidth;
+
+        const move=
+        setInterval(()=>{
+
+            position-=7;
+
+            obstacle.style.right=
+            (runnerArea.clientWidth-position)+"px";
+
+            const r=
+            runner.getBoundingClientRect();
+
+            const o=
+            obstacle.getBoundingClientRect();
+
+            if(
+                r.left<o.right &&
+                r.right>o.left &&
+                r.top<o.bottom &&
+                r.bottom>o.top
+            ){
+
+                clearInterval(move);
+
+                gameOver=true;
+
+                text.textContent=
+                "💥 GAME OVER! Score: "+score;
+            }
+
+            if(position<-60){
+
+                clearInterval(move);
+
+                obstacle.remove();
+
+                score++;
+
+                text.textContent=
+                "Score: "+score;
+            }
+
+        },30);
+
+    },1300);
+}
+
+
+/* BOSS */
+
+function bossGame(){
+
+    title.textContent="👑 Boss Challenge";
+
+    area.innerHTML=`
+        <h2>👑 BOSS HP</h2>
+
+        <div style="
+        width:80%;
+        height:25px;
+        background:#222;
+        margin:20px auto;
+        border-radius:20px;
+        overflow:hidden;
+        ">
+
+            <div id="bossHP"
+            style="
+            width:100%;
+            height:100%;
+            background:#ff0055;
+            transition:.2s;
+            ">
+            </div>
+
+        </div>
+
+        <button class="big-button" id="attackButton">
+            ⚔️ ATTACK
+        </button>
+
+        <p id="bossText">
+        Defeat the boss!
+        </p>
+    `;
+
+    let hp=100;
+
+    const hpBar=
+    document.getElementById("bossHP");
+
+    const attack=
+    document.getElementById("attackButton");
+
+    const text=
+    document.getElementById("bossText");
+
+    attack.onclick=()=>{
+
+        hp-=10;
+
+        hpBar.style.width=
+        hp+"%";
+
+        if(hp<=0){
+
+            hp=0;
+
+            text.textContent=
+            "👑 BOSS DEFEATED! YOU WIN!";
+
+            attack.disabled=true;
+
+        }else{
+
+            text.textContent=
+            "⚔️ Boss HP: "+hp;
         }
 
-        window.addEventListener(
-            "scroll",
-            revealOnScroll
-        );
-
-        revealOnScroll();
+    };
+}
 
 
-        /* =========================
-           COUNTERS
-        ========================== */
+/* CLOSE WHEN CLICKING OUTSIDE */
 
-        const counters =
-            document.querySelectorAll(".counter");
+modal.addEventListener("click",e=>{
 
-        let countersStarted = false;
+    if(e.target===modal)
+        closeGame();
 
-        function startCounters() {
+});
 
-            if (countersStarted) return;
-
-            const statsSection =
-                document.getElementById("stats");
-
-            const position =
-                statsSection.getBoundingClientRect().top;
-
-            if (position < window.innerHeight - 100) {
-
-                countersStarted = true;
-
-                counters.forEach(counter => {
-
-                    const target =
-                        Number(counter.dataset.target);
-
-                    let current = 0;
-
-                    const increment =
-                        Math.max(1, Math.ceil(target / 60));
-
-                    const timer =
-                        setInterval(() => {
-
-                            current += increment;
-
-                            if (current >= target) {
-                                current = target;
-                                clearInterval(timer);
-                            }
-
-                            counter.textContent =
-                                current;
-
-                        }, 25);
-
-                });
-
-            }
-
-        }
-
-        window.addEventListener(
-            "scroll",
-            startCounters
-        );
-
-
-        /* =========================
-           REACTION CHALLENGE
-        ========================== */
-
-        const challengeButton =
-            document.getElementById(
-                "challengeButton"
-            );
-
-        const challengeResult =
-            document.getElementById(
-                "challengeResult"
-            );
-
-        let challengeActive = false;
-        let challengeStart = 0;
-
-        challengeButton.addEventListener(
-            "click",
-            () => {
-
-                if (challengeActive) {
-
-                    const reactionTime =
-                        Date.now() - challengeStart;
-
-                    challengeResult.textContent =
-                        "🔥 Jouw tijd: " +
-                        reactionTime +
-                        " ms!";
-
-                    challengeButton.textContent =
-                        "PLAY AGAIN";
-
-                    challengeActive = false;
-
-                    return;
-                }
-
-                challengeActive = true;
-
-                challengeButton.textContent =
-                    "WAIT...";
-
-                challengeResult.textContent =
-                    "Wacht op het signaal...";
-
-                const delay =
-                    1500 + Math.random() * 3500;
-
-                setTimeout(() => {
-
-                    if (!challengeActive) return;
-
-                    challengeButton.textContent =
-                        "CLICK NOW! ⚡";
-
-                    challengeButton.style.transform =
-                        "scale(1.1)";
-
-                    challengeStart =
-                        Date.now();
-
-                }, delay);
-
-            }
-        );
-
-
-        /* =========================
-           MOUSE PARALLAX
-        ========================== */
-
-        document.addEventListener(
-            "mousemove",
-            event => {
-
-                const x =
-                    (event.clientX / window.innerWidth - .5) * 20;
-
-                const y =
-                    (event.clientY / window.innerHeight - .5) * 20;
-
-                document.querySelector(".orb.one").style.transform =
-                    `translate(${x}px, ${y}px)`;
-
-                document.querySelector(".orb.two").style.transform =
-                    `translate(${-x}px, ${-y}px)`;
-
-            }
-        );
-
-    </script>
+</script>
 
 </body>
 </html>
+```
