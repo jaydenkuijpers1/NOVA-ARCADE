@@ -1,617 +1,649 @@
-```html
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>NOVA ARCADE | Play Everything</title>
-
-<meta name="description" content="NOVA ARCADE - Speel snelle, leuke en uitdagende browsergames.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NOVA ARCADE — 100 Games</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    scroll-behavior:smooth;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#050510;
-    color:white;
-    overflow-x:hidden;
+font-family:Arial,Helvetica,sans-serif;
+background:#04040c;
+color:white;
+overflow-x:hidden;
 }
-
-/* BACKGROUND */
+button,input{font-family:inherit}
 
 .background{
-    position:fixed;
-    inset:0;
-    z-index:-10;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 20% 20%,rgba(0,200,255,.18),transparent 30%),
-        radial-gradient(circle at 80% 70%,rgba(170,0,255,.18),transparent 30%),
-        #050510;
+position:fixed;
+inset:0;
+z-index:-20;
+overflow:hidden;
+background:
+radial-gradient(circle at 15% 20%,rgba(0,255,255,.13),transparent 25%),
+radial-gradient(circle at 85% 30%,rgba(255,0,255,.13),transparent 25%),
+radial-gradient(circle at 50% 100%,rgba(80,0,255,.15),transparent 30%),
+#04040c;
+}
+
+.grid{
+position:absolute;
+inset:-50%;
+background-image:
+linear-gradient(rgba(0,255,255,.06) 1px,transparent 1px),
+linear-gradient(90deg,rgba(0,255,255,.06) 1px,transparent 1px);
+background-size:50px 50px;
+transform:perspective(500px) rotateX(60deg);
+animation:gridMove 12s linear infinite;
+}
+@keyframes gridMove{
+to{transform:perspective(500px) rotateX(60deg) translateY(50px)}
 }
 
 .orb{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(80px);
-    opacity:.5;
-    animation:float 10s infinite alternate ease-in-out;
+position:absolute;
+border-radius:50%;
+filter:blur(80px);
+opacity:.3;
+animation:orb 10s infinite ease-in-out;
+}
+.o1{width:350px;height:350px;background:#00ffff;left:-150px;top:10%}
+.o2{width:400px;height:400px;background:#ff00ff;right:-180px;top:35%;animation-delay:2s}
+.o3{width:300px;height:300px;background:#542cff;left:40%;bottom:-150px;animation-delay:4s}
+@keyframes orb{
+50%{transform:translate(50px,-40px) scale(1.1)}
 }
 
-.orb.one{
-    width:300px;
-    height:300px;
-    background:#00d9ff;
-    top:5%;
-    left:5%;
+#particles{
+position:fixed;
+inset:0;
+z-index:-5;
+pointer-events:none;
 }
-
-.orb.two{
-    width:350px;
-    height:350px;
-    background:#8a00ff;
-    right:5%;
-    bottom:5%;
-}
-
-.orb.three{
-    width:180px;
-    height:180px;
-    background:#ff008c;
-    left:50%;
-    top:45%;
-}
-
-@keyframes float{
-    from{transform:translate(0,0) scale(1)}
-    to{transform:translate(80px,-60px) scale(1.2)}
-}
-
-/* PARTICLES */
-
-.particles{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:-5;
-}
-
 .particle{
-    position:absolute;
-    width:3px;
-    height:3px;
-    background:white;
-    border-radius:50%;
-    animation:particleMove linear infinite;
+position:absolute;
+width:3px;
+height:3px;
+background:#fff;
+border-radius:50%;
+box-shadow:0 0 12px #00ffff;
+animation:particle linear infinite;
 }
-
-@keyframes particleMove{
-    from{
-        transform:translateY(100vh);
-        opacity:0;
-    }
-    20%{opacity:.7}
-    80%{opacity:.7}
-    to{
-        transform:translateY(-10vh);
-        opacity:0;
-    }
+@keyframes particle{
+from{transform:translateY(105vh);opacity:0}
+20%{opacity:1}
+80%{opacity:1}
+to{transform:translateY(-10vh);opacity:0}
 }
 
 /* NAV */
 
 nav{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    padding:20px 7%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    z-index:1000;
-    backdrop-filter:blur(15px);
-    background:rgba(5,5,16,.65);
-    border-bottom:1px solid rgba(255,255,255,.08);
+position:fixed;
+top:0;
+left:0;
+width:100%;
+z-index:100;
+padding:16px 5%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:rgba(4,4,12,.75);
+backdrop-filter:blur(18px);
+border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .logo{
-    font-size:24px;
-    font-weight:900;
-    letter-spacing:3px;
+font-size:24px;
+font-weight:1000;
+letter-spacing:3px;
+text-shadow:0 0 15px #00ffff;
+}
+.logo span{color:#00ffff}
+
+.navlinks{
+display:flex;
+gap:22px;
+list-style:none;
+}
+.navlinks a{
+color:#aaa;
+text-decoration:none;
+transition:.3s;
+}
+.navlinks a:hover{
+color:#00ffff;
+text-shadow:0 0 10px #00ffff;
 }
 
-.logo span{
-    color:#00eaff;
-    text-shadow:0 0 15px #00eaff;
-}
-
-nav ul{
-    display:flex;
-    list-style:none;
-    gap:30px;
-}
-
-nav a{
-    color:#ddd;
-    text-decoration:none;
-    font-weight:bold;
-    transition:.3s;
-}
-
-nav a:hover{
-    color:#00eaff;
-    text-shadow:0 0 12px #00eaff;
+.sound{
+width:42px;
+height:42px;
+border-radius:50%;
+border:1px solid #00ffff;
+background:rgba(0,255,255,.08);
+color:#00ffff;
+cursor:pointer;
 }
 
 /* HERO */
 
 .hero{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:120px 20px 60px;
+min-height:92vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:130px 20px 60px;
 }
-
-.hero-content{
-    max-width:900px;
-}
+.heroInner{max-width:1000px}
 
 .badge{
-    display:inline-block;
-    padding:9px 18px;
-    border:1px solid #00eaff;
-    border-radius:50px;
-    color:#00eaff;
-    box-shadow:0 0 20px rgba(0,234,255,.3);
-    margin-bottom:25px;
+display:inline-block;
+padding:8px 18px;
+border:1px solid rgba(0,255,255,.4);
+border-radius:50px;
+color:#00ffff;
+background:rgba(0,255,255,.06);
+font-size:12px;
+letter-spacing:2px;
+margin-bottom:25px;
 }
 
 .hero h1{
-    font-size:clamp(60px,12vw,150px);
-    line-height:.85;
-    font-weight:1000;
-    letter-spacing:-5px;
-    background:linear-gradient(
-        90deg,
-        #00eaff,
-        white,
-        #a600ff,
-        #ff008c
-    );
-    background-size:300%;
-    -webkit-background-clip:text;
-    color:transparent;
-    animation:gradientMove 5s infinite alternate;
+font-size:clamp(60px,12vw,150px);
+line-height:.85;
+letter-spacing:-7px;
+font-weight:1000;
+background:linear-gradient(
+90deg,
+#00ffff,
+#fff,
+#ff00ff,
+#00ffff
+);
+background-size:300%;
+-webkit-background-clip:text;
+color:transparent;
+animation:gradient 6s linear infinite;
+filter:drop-shadow(0 0 25px rgba(0,255,255,.3));
 }
-
-@keyframes gradientMove{
-    from{background-position:0%}
-    to{background-position:100%}
+@keyframes gradient{
+to{background-position:300%}
 }
 
 .hero p{
-    max-width:650px;
-    margin:30px auto;
-    font-size:19px;
-    color:#bbb;
-    line-height:1.7;
+max-width:650px;
+margin:30px auto;
+color:#999;
+font-size:18px;
+line-height:1.7;
 }
 
 .buttons{
-    display:flex;
-    justify-content:center;
-    gap:15px;
-    flex-wrap:wrap;
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
 }
 
-.btn{
-    padding:15px 28px;
-    border-radius:50px;
-    border:none;
-    text-decoration:none;
-    font-weight:900;
-    cursor:pointer;
-    transition:.3s;
+.primary,.secondary{
+padding:15px 28px;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+transition:.3s;
 }
-
-.btn-main{
-    background:#00eaff;
-    color:#020208;
-    box-shadow:0 0 25px rgba(0,234,255,.5);
+.primary{
+border:0;
+background:linear-gradient(90deg,#00ffff,#0066ff);
+color:#001015;
+box-shadow:0 0 25px rgba(0,255,255,.3);
 }
-
-.btn-main:hover{
-    transform:translateY(-5px) scale(1.04);
-    box-shadow:0 0 45px rgba(0,234,255,.8);
+.primary:hover{
+transform:translateY(-4px) scale(1.03);
+box-shadow:0 0 40px #00ffff;
 }
-
-.btn-second{
-    border:1px solid rgba(255,255,255,.3);
-    color:white;
-    background:rgba(255,255,255,.05);
-}
-
-.btn-second:hover{
-    border-color:#a600ff;
-    box-shadow:0 0 25px rgba(166,0,255,.4);
-}
-
-/* SECTIONS */
-
-section{
-    padding:100px 7%;
-}
-
-.section-title{
-    text-align:center;
-    margin-bottom:60px;
-}
-
-.section-title h2{
-    font-size:clamp(35px,6vw,65px);
-    margin-bottom:15px;
-}
-
-.section-title p{
-    color:#aaa;
-}
-
-/* GAME GRID */
-
-.games{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
-    max-width:1250px;
-    margin:auto;
-}
-
-.game-card{
-    position:relative;
-    padding:30px;
-    min-height:330px;
-    border-radius:25px;
-    overflow:hidden;
-    background:rgba(255,255,255,.055);
-    border:1px solid rgba(255,255,255,.12);
-    backdrop-filter:blur(15px);
-    transition:.4s;
-}
-
-.game-card:hover{
-    transform:translateY(-12px);
-    border-color:#00eaff;
-    box-shadow:0 20px 60px rgba(0,234,255,.15);
-}
-
-.game-icon{
-    font-size:55px;
-    margin-bottom:20px;
-}
-
-.game-card h3{
-    font-size:25px;
-    margin-bottom:12px;
-}
-
-.game-card p{
-    color:#aaa;
-    line-height:1.6;
-}
-
-.play{
-    position:absolute;
-    bottom:25px;
-    left:30px;
-    color:#00eaff;
-    font-weight:bold;
-}
-
-.game-button{
-    position:absolute;
-    bottom:20px;
-    right:20px;
-    background:#00eaff;
-    border:none;
-    padding:10px 17px;
-    border-radius:20px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-/* MODAL */
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:5000;
-    background:rgba(0,0,0,.82);
-    backdrop-filter:blur(12px);
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-}
-
-.modal-box{
-    width:min(850px,100%);
-    max-height:90vh;
-    overflow:auto;
-    background:#09091a;
-    border:1px solid #00eaff;
-    border-radius:30px;
-    padding:35px;
-    box-shadow:0 0 60px rgba(0,234,255,.25);
-    position:relative;
-    text-align:center;
-}
-
-.close{
-    position:absolute;
-    top:15px;
-    right:20px;
-    font-size:28px;
-    cursor:pointer;
-    color:#aaa;
-}
-
-.close:hover{
-    color:white;
-}
-
-.game-area{
-    margin-top:25px;
-    min-height:300px;
-    border-radius:20px;
-    background:#05050d;
-    border:1px solid rgba(255,255,255,.1);
-    padding:25px;
-    position:relative;
-    overflow:hidden;
-}
-
-.score{
-    color:#00eaff;
-    font-size:22px;
-    font-weight:bold;
-    margin:15px;
-}
-
-/* GENERAL GAME */
-
-.big-button{
-    font-size:22px;
-    padding:18px 30px;
-    border-radius:15px;
-    border:none;
-    background:#00eaff;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.big-button:hover{
-    transform:scale(1.05);
-}
-
-/* AIM */
-
-.target{
-    position:absolute;
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    background:#ff008c;
-    box-shadow:0 0 25px #ff008c;
-    cursor:pointer;
-}
-
-/* COLOR */
-
-.color-box{
-    width:150px;
-    height:150px;
-    margin:20px auto;
-    border-radius:20px;
-    cursor:pointer;
-}
-
-/* DODGE */
-
-.dodge-player{
-    width:40px;
-    height:40px;
-    background:#00eaff;
-    position:absolute;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    border-radius:10px;
-}
-
-.enemy{
-    position:absolute;
-    width:35px;
-    height:35px;
-    background:#ff0055;
-    border-radius:8px;
-}
-
-/* MEMORY */
-
-.memory-grid{
-    display:grid;
-    grid-template-columns:repeat(4,60px);
-    gap:10px;
-    justify-content:center;
-}
-
-.memory-tile{
-    width:60px;
-    height:60px;
-    border-radius:10px;
-    background:#17172c;
-    cursor:pointer;
-    border:1px solid #333;
-}
-
-.memory-tile.active{
-    background:#00eaff;
-    box-shadow:0 0 20px #00eaff;
-}
-
-/* NUMBER */
-
-.number-grid{
-    display:grid;
-    grid-template-columns:repeat(4,65px);
-    gap:10px;
-    justify-content:center;
-}
-
-.number-button{
-    height:65px;
-    border:none;
-    border-radius:10px;
-    background:#16162b;
-    color:white;
-    font-size:20px;
-    cursor:pointer;
-}
-
-.number-button:hover{
-    background:#00eaff;
-    color:#000;
-}
-
-/* RUNNER */
-
-.runner{
-    width:45px;
-    height:45px;
-    background:#00eaff;
-    position:absolute;
-    bottom:20px;
-    left:50px;
-    border-radius:10px;
-}
-
-.runner-obstacle{
-    position:absolute;
-    width:35px;
-    height:55px;
-    background:#ff0055;
-    bottom:20px;
-    right:-50px;
+.secondary{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.15);
+color:white;
 }
 
 /* STATS */
 
 .stats{
-    max-width:1000px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-    gap:20px;
+max-width:1200px;
+margin:auto;
+padding:20px;
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:14px;
 }
 
 .stat{
-    text-align:center;
-    padding:35px 20px;
-    border-radius:20px;
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.1);
+padding:22px;
+text-align:center;
+background:rgba(255,255,255,.045);
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+backdrop-filter:blur(10px);
+}
+.statValue{
+font-size:30px;
+font-weight:900;
+color:#00ffff;
+text-shadow:0 0 15px #00ffff;
+}
+.statLabel{
+font-size:11px;
+color:#777;
+margin-top:7px;
+letter-spacing:1px;
 }
 
-.stat h3{
-    font-size:45px;
-    color:#00eaff;
-    text-shadow:0 0 20px rgba(0,234,255,.5);
+/* SECTION */
+
+.section{
+max-width:1400px;
+margin:auto;
+padding:100px 5%;
+}
+.title{
+text-align:center;
+margin-bottom:45px;
+}
+.title h2{
+font-size:52px;
+}
+.title p{
+color:#777;
+margin-top:10px;
 }
 
-.stat p{
-    color:#aaa;
-    margin-top:8px;
+/* SEARCH */
+
+.searchArea{
+display:flex;
+gap:12px;
+max-width:800px;
+margin:0 auto 35px;
+}
+#search{
+flex:1;
+padding:15px 18px;
+border-radius:12px;
+border:1px solid rgba(0,255,255,.25);
+background:rgba(255,255,255,.05);
+color:white;
+outline:none;
+font-size:16px;
+}
+#search:focus{
+border-color:#00ffff;
+box-shadow:0 0 20px rgba(0,255,255,.15);
+}
+
+.category{
+padding:15px;
+border-radius:12px;
+border:1px solid rgba(255,255,255,.15);
+background:#0b0b17;
+color:white;
+}
+
+/* GAMES */
+
+.games{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:16px;
+}
+
+.card{
+position:relative;
+overflow:hidden;
+padding:22px;
+min-height:265px;
+border-radius:21px;
+background:
+linear-gradient(
+145deg,
+rgba(255,255,255,.075),
+rgba(255,255,255,.02)
+);
+border:1px solid rgba(255,255,255,.09);
+transition:.4s;
+}
+.card:hover{
+transform:translateY(-9px);
+border-color:rgba(0,255,255,.5);
+box-shadow:
+0 15px 50px rgba(0,0,0,.5),
+0 0 30px rgba(0,255,255,.12);
+}
+.card::after{
+content:"";
+position:absolute;
+width:100px;
+height:100px;
+background:#00ffff;
+filter:blur(80px);
+opacity:0;
+right:-50px;
+bottom:-50px;
+transition:.4s;
+}
+.card:hover::after{opacity:.4}
+
+.num{
+font-size:11px;
+color:#555;
+font-weight:bold;
+}
+.icon{
+font-size:48px;
+margin:15px 0;
+}
+.card h3{
+font-size:18px;
+margin-bottom:8px;
+}
+.card p{
+color:#888;
+font-size:12px;
+line-height:1.5;
+min-height:38px;
+}
+.play{
+width:100%;
+padding:11px;
+margin-top:17px;
+border-radius:9px;
+background:rgba(0,255,255,.07);
+border:1px solid rgba(0,255,255,.3);
+color:#00ffff;
+cursor:pointer;
+font-weight:bold;
+transition:.3s;
+}
+.play:hover{
+background:#00ffff;
+color:#001010;
+box-shadow:0 0 20px #00ffff;
+}
+
+/* ACHIEVEMENTS */
+
+.achievements{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+}
+.achievement{
+padding:22px;
+border:1px solid rgba(255,255,255,.08);
+background:rgba(255,255,255,.04);
+border-radius:18px;
+opacity:.4;
+transition:.4s;
+}
+.achievement.unlocked{
+opacity:1;
+border-color:#00ffff;
+box-shadow:0 0 25px rgba(0,255,255,.15);
+}
+.achievementIcon{
+font-size:34px;
+margin-bottom:10px;
+}
+.achievement p{
+color:#888;
+font-size:12px;
+margin-top:5px;
 }
 
 /* CONTACT */
 
-.contact-box{
-    max-width:800px;
-    margin:auto;
-    text-align:center;
-    padding:60px 30px;
-    border-radius:30px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.12);
+.contact{
+padding:110px 20px;
+text-align:center;
 }
-
-.contact-box h2{
-    font-size:45px;
-    margin-bottom:20px;
+.contactBox{
+max-width:700px;
+margin:auto;
+padding:50px 25px;
+border-radius:30px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.1);
 }
-
 .phone{
-    display:inline-block;
-    margin:25px 0;
-    font-size:30px;
-    color:#00eaff;
-    text-decoration:none;
-    font-weight:bold;
+display:inline-block;
+margin-top:25px;
+font-size:25px;
+color:#00ffff;
+text-decoration:none;
+text-shadow:0 0 15px #00ffff;
+}
+
+/* MODAL */
+
+.modal{
+position:fixed;
+inset:0;
+z-index:500;
+display:none;
+align-items:center;
+justify-content:center;
+padding:15px;
+background:rgba(0,0,0,.82);
+backdrop-filter:blur(15px);
+}
+.modal.active{display:flex}
+
+.window{
+width:min(1000px,100%);
+max-height:94vh;
+overflow:auto;
+background:#080812;
+border:1px solid rgba(0,255,255,.3);
+border-radius:25px;
+box-shadow:0 0 90px rgba(0,255,255,.15);
+}
+
+.gameHead{
+position:sticky;
+top:0;
+z-index:5;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 22px;
+background:rgba(8,8,18,.9);
+backdrop-filter:blur(15px);
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+.gameHead h2{color:#00ffff}
+.close{
+width:40px;
+height:40px;
+border-radius:50%;
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.15);
+color:white;
+cursor:pointer;
+font-size:20px;
+}
+
+.gameInfo{
+display:flex;
+justify-content:center;
+gap:35px;
+padding:15px;
+color:#888;
+}
+.gameInfo strong{color:#00ffff}
+
+#gameArea{
+position:relative;
+min-height:500px;
+margin:0 20px 20px;
+overflow:hidden;
+border-radius:20px;
+border:1px solid rgba(255,255,255,.06);
+background:
+radial-gradient(circle at center,rgba(0,255,255,.06),transparent 55%),
+#04040d;
+}
+
+.center{
+min-height:500px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:25px;
+}
+.center h2{
+font-size:38px;
+}
+.message{
+color:#888;
+margin:12px;
+}
+.action{
+padding:14px 25px;
+margin-top:15px;
+border:0;
+border-radius:11px;
+background:#00ffff;
+color:#001010;
+font-weight:bold;
+cursor:pointer;
+box-shadow:0 0 20px rgba(0,255,255,.3);
+}
+
+/* UNIVERSAL GAME OBJECTS */
+
+.target{
+position:absolute;
+width:60px;
+height:60px;
+border-radius:50%;
+background:radial-gradient(
+circle,
+white 0 10%,
+#00ffff 12% 40%,
+#0066ff 42% 65%,
+transparent 67%
+);
+box-shadow:0 0 30px #00ffff;
+cursor:pointer;
+}
+
+.coin{
+position:absolute;
+width:45px;
+height:45px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+cursor:pointer;
+background:radial-gradient(circle,#fff,#00ffff 35%,#0066ff);
+box-shadow:0 0 25px #00ffff;
+animation:coin 1s linear infinite;
+}
+@keyframes coin{
+50%{transform:rotateY(180deg) scale(.8)}
+}
+
+.square{
+position:absolute;
+width:50px;
+height:50px;
+border-radius:8px;
+background:linear-gradient(135deg,#00ffff,#0066ff);
+box-shadow:0 0 20px #00ffff;
+cursor:pointer;
+}
+
+.danger{
+background:linear-gradient(135deg,#ff3355,#ff00aa)!important;
+box-shadow:0 0 20px #ff3355!important;
+}
+
+.big{
+font-size:100px;
+font-weight:1000;
+color:#00ffff;
+text-shadow:0 0 30px #00ffff;
+}
+
+.result{
+min-height:500px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+.result .emoji{
+font-size:80px;
+}
+.result h2{
+font-size:45px;
+color:#00ffff;
+margin:10px;
+}
+.result .score{
+font-size:30px;
+margin:10px;
 }
 
 /* FOOTER */
 
 footer{
-    text-align:center;
-    padding:35px;
-    color:#777;
-    border-top:1px solid rgba(255,255,255,.08);
+text-align:center;
+padding:30px;
+color:#555;
+border-top:1px solid rgba(255,255,255,.06);
 }
 
-/* REVEAL */
+/* TOAST */
 
-.reveal{
-    opacity:0;
-    transform:translateY(40px);
-    transition:1s;
+#toast{
+position:fixed;
+right:20px;
+bottom:20px;
+z-index:1000;
+padding:15px 22px;
+background:#0d0d18;
+border:1px solid #00ffff;
+border-radius:12px;
+color:#00ffff;
+box-shadow:0 0 30px rgba(0,255,255,.2);
+transform:translateX(150%);
+transition:.4s;
 }
+#toast.show{transform:translateX(0)}
 
-.reveal.active{
-    opacity:1;
-    transform:translateY(0);
+@media(max-width:1100px){
+.games{grid-template-columns:repeat(3,1fr)}
+.achievements{grid-template-columns:repeat(2,1fr)}
 }
-
 @media(max-width:700px){
-
-    nav ul{
-        display:none;
-    }
-
-    nav{
-        padding:15px 20px;
-    }
-
-    section{
-        padding:75px 20px;
-    }
-
-    .hero h1{
-        letter-spacing:-3px;
-    }
-
-    .modal-box{
-        padding:25px 15px;
-    }
+.navlinks{display:none}
+.stats{grid-template-columns:repeat(2,1fr)}
+.games{grid-template-columns:1fr}
+.achievements{grid-template-columns:1fr}
+.searchArea{flex-direction:column}
+.hero h1{letter-spacing:-3px}
+#gameArea{margin:0 7px 7px}
 }
 </style>
 </head>
@@ -619,957 +651,2422 @@ footer{
 <body>
 
 <div class="background">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-    <div class="orb three"></div>
+<div class="grid"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
 </div>
 
-<div class="particles" id="particles"></div>
+<div id="particles"></div>
 
 <nav>
-    <div class="logo">NOVA<span>ARCADE</span></div>
+<div class="logo">NOVA<span>ARCADE</span></div>
 
-    <ul>
-        <li><a href="#games">Games</a></li>
-        <li><a href="#stats">Stats</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
+<ul class="navlinks">
+<li><a href="#games">Games</a></li>
+<li><a href="#stats">Stats</a></li>
+<li><a href="#achievements">Achievements</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+
+<button class="sound" id="soundBtn" onclick="toggleSound()">🔊</button>
 </nav>
 
-<header class="hero">
+<section class="hero">
 
-    <div class="hero-content">
+<div class="heroInner">
 
-        <div class="badge">⚡ WELCOME TO NOVA ARCADE</div>
+<div class="badge">⚡ 100 GAMES • ONE ARCADE</div>
 
-        <h1>NOVA<br>ARCADE</h1>
+<h1>NOVA<br>ARCADE</h1>
 
-        <p>
-            Speel snelle challenges, verbreek records
-            en ontdek hoeveel games jij kunt winnen.
-        </p>
+<p>
+Welcome to the ultimate browser arcade.
+Play 100 challenges, collect XP, beat records,
+unlock achievements and discover your favorite games.
+</p>
 
-        <div class="buttons">
-            <a href="#games" class="btn btn-main">
-                🎮 PLAY NOW
-            </a>
-
-            <a href="#contact" class="btn btn-second">
-                CONTACT
-            </a>
-        </div>
-
-    </div>
-
-</header>
-
-
-<section id="games">
-
-    <div class="section-title reveal">
-        <h2>🎮 ALL GAMES</h2>
-        <p>Kies een game en probeer jouw highscore te verbreken.</p>
-    </div>
-
-    <div class="games">
-
-        <div class="game-card reveal">
-            <div class="game-icon">⚡</div>
-            <h3>Reaction Rush</h3>
-            <p>Klik zo snel mogelijk zodra het signaal verschijnt.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('reaction')">PLAY</button>
-        </div>
-
-        <div class="game-card reveal">
-            <div class="game-icon">🧠</div>
-            <h3>Memory Matrix</h3>
-            <p>Onthoud welke vakjes oplichten.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('memory')">PLAY</button>
-        </div>
-
-        <div class="game-card reveal">
-            <div class="game-icon">🎯</div>
-            <h3>Perfect Aim</h3>
-            <p>Raak zoveel mogelijk targets.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('aim')">PLAY</button>
-        </div>
-
-        <div class="game-card reveal">
-            <div class="game-icon">🚀</div>
-            <h3>Speed Run</h3>
-            <p>Ren zo lang mogelijk zonder obstakels te raken.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('runner')">PLAY</button>
-        </div>
-
-        <div class="game-card reveal">
-            <div class="game-icon">🟢</div>
-            <h3>Color Match</h3>
-            <p>Klik op de juiste kleur voordat de tijd voorbij is.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('color')">PLAY</button>
-        </div>
-
-        <div class="game-card reveal">
-            <div class="game-icon">🔢</div>
-            <h3>Number Rush</h3>
-            <p>Klik de nummers in de juiste volgorde.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('number')">PLAY</button>
-        </div>
-
-        <div class="game-card reveal">
-            <div class="game-icon">🧱</div>
-            <h3>Break The Blocks</h3>
-            <p>Breek zoveel mogelijk blokken.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('blocks')">PLAY</button>
-        </div>
-
-        <div class="game-card reveal">
-            <div class="game-icon">💎</div>
-            <h3>Coin Collector</h3>
-            <p>Verzamel zoveel mogelijk coins.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('coins')">PLAY</button>
-        </div>
-
-        <div class="game-card reveal">
-            <div class="game-icon">🏃</div>
-            <h3>Endless Runner</h3>
-            <p>Spring over obstakels en blijf rennen.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('runner')">PLAY</button>
-        </div>
-
-        <div class="game-card reveal">
-            <div class="game-icon">👑</div>
-            <h3>Boss Challenge</h3>
-            <p>De ultieme challenge. Versla de boss.</p>
-            <span class="play">PLAY →</span>
-            <button class="game-button" onclick="openGame('boss')">PLAY</button>
-        </div>
-
-    </div>
-</section>
-
-
-<section id="stats">
-
-    <div class="section-title reveal">
-        <h2>🏆 NOVA STATS</h2>
-        <p>Hoe groot wordt de arcade?</p>
-    </div>
-
-    <div class="stats">
-
-        <div class="stat reveal">
-            <h3>10</h3>
-            <p>Games</p>
-        </div>
-
-        <div class="stat reveal">
-            <h3>∞</h3>
-            <p>Challenges</p>
-        </div>
-
-        <div class="stat reveal">
-            <h3>⚡</h3>
-            <p>Speed</p>
-        </div>
-
-        <div class="stat reveal">
-            <h3>🏆</h3>
-            <p>High Scores</p>
-        </div>
-
-    </div>
-
-</section>
-
-
-<section id="contact">
-
-    <div class="contact-box reveal">
-
-        <h2>📞 CONTACT</h2>
-
-        <p>Heb je een vraag of een idee voor een nieuwe game?</p>
-
-        <a href="tel:061985623" class="phone">
-            061985623
-        </a>
-
-        <br>
-
-        <a href="tel:061985623" class="btn btn-main">
-            BEL NU
-        </a>
-
-    </div>
-
-</section>
-
-
-<footer>
-    © 2026 NOVA ARCADE — PLAY. COMPETE. REPEAT.
-</footer>
-
-
-<!-- GAME MODAL -->
-
-<div class="modal" id="gameModal">
-
-    <div class="modal-box">
-
-        <span class="close" onclick="closeGame()">✕</span>
-
-        <h2 id="gameTitle">Game</h2>
-
-        <div class="score" id="gameScore">Score: 0</div>
-
-        <div class="game-area" id="gameArea"></div>
-
-    </div>
+<div class="buttons">
+<button class="primary" onclick="scrollGames()">🎮 PLAY NOW</button>
+<button class="secondary" onclick="scrollStats()">🏆 MY STATS</button>
+</div>
 
 </div>
 
+</section>
+
+<section class="stats" id="stats">
+
+<div class="stat">
+<div class="statValue" id="level">1</div>
+<div class="statLabel">LEVEL</div>
+</div>
+
+<div class="stat">
+<div class="statValue" id="xp">0</div>
+<div class="statLabel">XP</div>
+</div>
+
+<div class="stat">
+<div class="statValue" id="high">0</div>
+<div class="statLabel">HIGH SCORE</div>
+</div>
+
+<div class="stat">
+<div class="statValue" id="played">0</div>
+<div class="statLabel">GAMES PLAYED</div>
+</div>
+
+<div class="stat">
+<div class="statValue" id="bestCombo">0</div>
+<div class="statLabel">BEST COMBO</div>
+</div>
+
+</section>
+
+<section class="section" id="games">
+
+<div class="title">
+<h2>🎮 100 GAMES</h2>
+<p>Find a game. Press play. Beat the record.</p>
+</div>
+
+<div class="searchArea">
+
+<input
+id="search"
+placeholder="🔎 Search 100 games..."
+oninput="filterGames()"
+>
+
+<select id="category" class="category" onchange="filterGames()">
+<option value="all">All categories</option>
+<option value="reflex">Reflex</option>
+<option value="puzzle">Puzzle</option>
+<option value="action">Action</option>
+<option value="speed">Speed</option>
+<option value="arcade">Arcade</option>
+</select>
+
+</div>
+
+<div class="games" id="gamesGrid"></div>
+
+</section>
+
+<section class="section" id="achievements">
+
+<div class="title">
+<h2>🏆 ACHIEVEMENTS</h2>
+<p>Keep playing to unlock them.</p>
+</div>
+
+<div class="achievements" id="achievementGrid"></div>
+
+</section>
+
+<section class="contact" id="contact">
+
+<div class="contactBox">
+
+<div class="badge">NOVA ARCADE</div>
+
+<h2>READY TO PLAY?</h2>
+
+<p style="color:#888;margin-top:15px">
+Questions, ideas or contact?
+</p>
+
+<a class="phone" href="tel:061985623">
+📞 061985623
+</a>
+
+</div>
+
+</section>
+
+<footer>
+NOVA ARCADE • 100 GAMES • PLAY • COMPETE • REPEAT
+</footer>
+
+<!-- GAME WINDOW -->
+
+<div class="modal" id="modal">
+
+<div class="window">
+
+<div class="gameHead">
+
+<h2 id="gameTitle">GAME</h2>
+
+<button class="close" onclick="closeGame()">×</button>
+
+</div>
+
+<div class="gameInfo">
+
+<span>SCORE: <strong id="score">0</strong></span>
+<span>TIME: <strong id="time">—</strong></span>
+<span>COMBO: <strong id="combo">0</strong></span>
+
+</div>
+
+<div id="gameArea"></div>
+
+</div>
+
+</div>
+
+<div id="toast"></div>
 
 <script>
 
-/* PARTICLES */
+/* =========================================================
+   NOVA ARCADE DATA
+========================================================= */
 
-const particleContainer =
-document.getElementById("particles");
+const games = [
 
-for(let i=0;i<80;i++){
+["Reaction Rush","⚡","reflex","Click at exactly the right moment."],
+["Memory Matrix","🧠","puzzle","Remember the glowing tiles."],
+["Perfect Aim","🎯","reflex","Hit moving targets."],
+["Speed Run","💨","speed","Hit checkpoints as fast as possible."],
+["Color Match","🌈","puzzle","Choose the correct color."],
+["Number Rush","🔢","speed","Click numbers in order."],
+["Break The Blocks","🧱","arcade","Destroy every block."],
+["Coin Collector","💎","arcade","Collect as many gems as possible."],
+["Endless Runner","🏃","action","Jump over obstacles."],
+["Boss Challenge","👾","action","Defeat the giant boss."],
 
-    const p=document.createElement("div");
+["Quick Click","👆","reflex","Click the target instantly."],
+["Neon Tap","✨","reflex","Tap glowing objects."],
+["Flash Point","⚡","reflex","React to the flash."],
+["Laser Reflex","🔴","reflex","Avoid the laser and react."],
+["Target Storm","🎯","reflex","Survive a storm of targets."],
+["Blink Challenge","💡","reflex","Click when the light appears."],
+["Fast Fingers","🖐️","reflex","Test your clicking speed."],
+["Instant Tap","⚡","reflex","Tap before the timer ends."],
+["Reflex Arena","🏟️","reflex","Master the arena."],
+["Reaction Pro","🥇","reflex","Become a reaction master."],
 
-    p.className="particle";
+["Tile Memory","🟦","puzzle","Remember tile positions."],
+["Pattern Master","🧩","puzzle","Copy the pattern."],
+["Sequence Recall","🔢","puzzle","Remember the sequence."],
+["Shape Memory","🔷","puzzle","Remember shapes."],
+["Light Pattern","💡","puzzle","Follow the lights."],
+["Brain Grid","🧠","puzzle","Solve the glowing grid."],
+["Memory Rush","🚀","puzzle","Remember faster and faster."],
+["Puzzle Pulse","💜","puzzle","Match the pulse."],
+["Logic Tiles","🔲","puzzle","Choose the correct tiles."],
+["Mind Matrix","🧠","puzzle","Beat the matrix."],
 
-    p.style.left=Math.random()*100+"%";
+["Target Hunter","🎯","action","Hunt every target."],
+["Block Blaster","💥","action","Blast the blocks."],
+["Meteor Dodge","☄️","action","Avoid falling meteors."],
+["Alien Attack","👽","action","Survive the aliens."],
+["Robot Rush","🤖","action","Destroy incoming robots."],
+["Space Defender","🚀","action","Defend the station."],
+["Ninja Dash","🥷","action","Dodge everything."],
+["Cyber Battle","⚔️","action","Win the cyber arena."],
+["Monster Hunt","👹","action","Defeat monsters."],
+["Galaxy Defense","🌌","action","Protect the galaxy."],
 
-    p.style.animationDuration=
-    (5+Math.random()*10)+"s";
+["Speed Click","💨","speed","Click as quickly as possible."],
+["Turbo Tap","🏎️","speed","Keep your speed up."],
+["Quick Numbers","🔢","speed","Finish the number grid."],
+["Speed Tiles","🟦","speed","Clear tiles quickly."],
+["Rapid Fire","🔥","speed","Hit everything rapidly."],
+["Fast Match","⚡","speed","Match before time ends."],
+["Turbo Target","🎯","speed","Catch the moving target."],
+["Speed Memory","🧠","speed","Remember at turbo speed."],
+["Hyper Runner","🏃","speed","Run faster every second."],
+["Velocity","🚀","speed","Push your reaction speed."],
 
-    p.style.animationDelay=
-    Math.random()*10+"s";
+["Coin Rain","🪙","arcade","Collect falling coins."],
+["Gem Rush","💎","arcade","Collect rare gems."],
+["Star Catcher","⭐","arcade","Catch falling stars."],
+["Orb Collector","🔵","arcade","Collect glowing orbs."],
+["Crystal Hunt","💠","arcade","Find every crystal."],
+["Treasure Tap","💰","arcade","Collect treasure."],
+["Golden Rush","👑","arcade","Catch golden objects."],
+["Pixel Coins","🟡","arcade","Grab pixel coins."],
+["Neon Collector","💚","arcade","Collect neon energy."],
+["Diamond Dash","💎","arcade","Grab diamonds quickly."],
 
-    particleContainer.appendChild(p);
+["Square Smash","🟥","arcade","Smash every square."],
+["Circle Smash","⭕","arcade","Destroy circles."],
+["Neon Blocks","🟦","arcade","Clear neon blocks."],
+["Color Breaker","🌈","arcade","Break matching colors."],
+["Wall Breaker","🧱","arcade","Break through the wall."],
+["Pixel Break","🎮","arcade","Destroy pixel blocks."],
+["Mega Blocks","🧱","arcade","Survive multiple waves."],
+["Block Storm","🌪️","arcade","Clear the storm."],
+["Brick Rush","🏗️","arcade","Break bricks quickly."],
+["Ultimate Breaker","💥","arcade","Break everything."],
+
+["Target Race","🏁","speed","Race through targets."],
+["Checkpoint Rush","🚩","speed","Reach every checkpoint."],
+["Time Attack","⏱️","speed","Beat the clock."],
+["Clock Crusher","🕐","speed","Destroy the clock."],
+["Final Second","⌛","speed","Survive until zero."],
+["Time Hunter","🎯","speed","Hunt time bonuses."],
+["Turbo Race","🏎️","speed","Race through the neon."],
+["Speed Arena","🏟️","speed","Complete the arena."],
+["Quick Escape","🚪","speed","Escape before time ends."],
+["Last Second","⚡","speed","Make every second count."],
+
+["Neon Dodge","💠","action","Dodge neon hazards."],
+["Laser Dodge","🔴","action","Avoid lasers."],
+["Orb Dodge","🔵","action","Avoid dangerous orbs."],
+["Falling Stars","🌠","action","Survive falling stars."],
+["Cyber Dodge","🤖","action","Dodge cyber enemies."],
+["Meteor Field","☄️","action","Cross the meteor field."],
+["Space Run","🌌","action","Run through space."],
+["Danger Zone","⚠️","action","Survive the danger zone."],
+["Chaos Arena","🔥","action","Survive total chaos."],
+["Final Arena","👑","action","Become the arena champion."]
+
+];
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let data=JSON.parse(
+localStorage.getItem("novaArcade")
+)||{
+xp:0,
+high:0,
+played:0,
+combo:0,
+bestCombo:0,
+achievements:[]
+};
+
+let sound=true;
+let currentGame=null;
+let timer=null;
+let timeout=null;
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+const particleBox=document.getElementById("particles");
+
+for(let i=0;i<120;i++){
+
+const p=document.createElement("div");
+
+p.className="particle";
+
+p.style.left=Math.random()*100+"%";
+p.style.animationDuration=(5+Math.random()*12)+"s";
+p.style.animationDelay=(-Math.random()*15)+"s";
+p.style.opacity=Math.random();
+
+particleBox.appendChild(p);
+
 }
 
+/* =========================================================
+   GAME CARDS
+========================================================= */
 
-/* REVEAL */
+function renderGames(list=games){
 
-const reveals=document.querySelectorAll(".reveal");
+const grid=document.getElementById("gamesGrid");
 
-function reveal(){
+grid.innerHTML="";
 
-    reveals.forEach(el=>{
+list.forEach((g,index)=>{
 
-        if(el.getBoundingClientRect().top <
-           window.innerHeight-80){
+const card=document.createElement("div");
 
-            el.classList.add("active");
-        }
+card.className="card";
 
-    });
+card.innerHTML=`
+
+<div class="num">
+GAME ${String(index+1).padStart(3,"0")}
+</div>
+
+<div class="icon">${g[1]}</div>
+
+<h3>${g[0]}</h3>
+
+<p>${g[3]}</p>
+
+<button class="play"
+onclick="openGame(${games.indexOf(g)})">
+PLAY
+</button>
+
+`;
+
+grid.appendChild(card);
+
+});
+
 }
 
-window.addEventListener("scroll",reveal);
+renderGames();
 
-reveal();
+/* =========================================================
+   SEARCH
+========================================================= */
 
+function filterGames(){
 
-/* MODAL */
+const query=
+document.getElementById("search")
+.value.toLowerCase();
 
-const modal=document.getElementById("gameModal");
-const area=document.getElementById("gameArea");
-const title=document.getElementById("gameTitle");
-const scoreDisplay=document.getElementById("gameScore");
+const cat=
+document.getElementById("category")
+.value;
 
-let gameTimer;
-let gameScore=0;
+const filtered=
+games.filter(g=>
+g[0].toLowerCase().includes(query)&&
+(cat==="all"||g[2]===cat)
+);
 
-function openGame(game){
+renderGames(filtered);
 
-    modal.style.display="flex";
+}
 
-    clearInterval(gameTimer);
+/* =========================================================
+   STATS
+========================================================= */
 
-    area.innerHTML="";
-    gameScore=0;
-    scoreDisplay.textContent="Score: 0";
+function save(){
+localStorage.setItem(
+"novaArcade",
+JSON.stringify(data)
+);
+}
 
-    if(game==="reaction") reactionGame();
-    if(game==="memory") memoryGame();
-    if(game==="aim") aimGame();
-    if(game==="color") colorGame();
-    if(game==="number") numberGame();
-    if(game==="blocks") blocksGame();
-    if(game==="coins") coinsGame();
-    if(game==="runner") runnerGame();
-    if(game==="boss") bossGame();
+function update(){
+
+const level=
+Math.floor(data.xp/100)+1;
+
+document.getElementById("level").textContent=level;
+document.getElementById("xp").textContent=data.xp;
+document.getElementById("high").textContent=data.high;
+document.getElementById("played").textContent=data.played;
+document.getElementById("bestCombo").textContent=data.bestCombo;
+
+save();
+
+renderAchievements();
+
+}
+
+function addXP(amount){
+
+const oldLevel=
+Math.floor(data.xp/100)+1;
+
+data.xp+=amount;
+
+const newLevel=
+Math.floor(data.xp/100)+1;
+
+if(newLevel>oldLevel){
+
+toast("⭐ LEVEL UP! LEVEL "+newLevel);
+
+play(900,.2);
+
+}
+
+update();
+
+}
+
+function finishScore(score){
+
+if(score>data.high){
+
+data.high=score;
+
+toast("🏆 NEW HIGH SCORE!");
+
+play(1000,.2);
+
+}
+
+addXP(Math.max(5,Math.floor(score)));
+
+}
+
+/* =========================================================
+   COMBO
+========================================================= */
+
+function hit(){
+
+data.combo++;
+
+if(data.combo>data.bestCombo)
+data.bestCombo=data.combo;
+
+document.getElementById("combo").textContent=data.combo;
+
+if(data.combo%10===0)
+toast("🔥 "+data.combo+" COMBO!");
+
+}
+
+function miss(){
+
+data.combo=0;
+
+document.getElementById("combo").textContent=0;
+
+}
+
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+const achievements=[
+
+["🎮","First Game","Play your first game."],
+["🔥","Ten Games","Play 10 games."],
+["💯","Score Hunter","Reach 100 points."],
+["⭐","Level Five","Reach level 5."],
+["🔥","Combo Master","Reach a 10 combo."],
+["💎","XP Collector","Earn 500 XP."],
+["👑","Arcade Legend","Play 50 games."],
+["🚀","100 Club","Play all 100 games."]
+
+];
+
+function renderAchievements(){
+
+const box=document.getElementById("achievementGrid");
+
+box.innerHTML="";
+
+achievements.forEach((a,i)=>{
+
+const unlocked=
+data.achievements.includes(i);
+
+const div=document.createElement("div");
+
+div.className=
+"achievement"+
+(unlocked?" unlocked":"");
+
+div.innerHTML=`
+
+<div class="achievementIcon">${a[0]}</div>
+
+<h3>${a[1]}</h3>
+
+<p>${a[2]}</p>
+
+`;
+
+box.appendChild(div);
+
+});
+
+}
+
+function unlock(id){
+
+if(data.achievements.includes(id))
+return;
+
+data.achievements.push(id);
+
+toast("🏆 ACHIEVEMENT UNLOCKED!");
+
+play(1100,.25);
+
+update();
+
+}
+
+function checkAchievements(){
+
+if(data.played>=1)unlock(0);
+if(data.played>=10)unlock(1);
+if(data.high>=100)unlock(2);
+if(Math.floor(data.xp/100)+1>=5)unlock(3);
+if(data.bestCombo>=10)unlock(4);
+if(data.xp>=500)unlock(5);
+if(data.played>=50)unlock(6);
+if(data.played>=100)unlock(7);
+
+}
+
+/* =========================================================
+   SOUND
+========================================================= */
+
+let audio;
+
+function play(freq=600,duration=.08){
+
+if(!sound)return;
+
+try{
+
+audio=audio||
+new(window.AudioContext||
+window.webkitAudioContext)();
+
+const osc=audio.createOscillator();
+const gain=audio.createGain();
+
+osc.frequency.value=freq;
+osc.type="sine";
+
+gain.gain.setValueAtTime(
+.06,
+audio.currentTime
+);
+
+gain.gain.exponentialRampToValueAtTime(
+.001,
+audio.currentTime+duration
+);
+
+osc.connect(gain);
+gain.connect(audio.destination);
+
+osc.start();
+
+osc.stop(
+audio.currentTime+duration
+);
+
+}catch(e){}
+
+}
+
+function toggleSound(){
+
+sound=!sound;
+
+document.getElementById("soundBtn")
+.textContent=sound?"🔊":"🔇";
+
+if(sound)play(700,.1);
+
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function toast(text){
+
+const t=document.getElementById("toast");
+
+t.textContent=text;
+
+t.classList.add("show");
+
+clearTimeout(toastTimer);
+
+toastTimer=setTimeout(
+()=>t.classList.remove("show"),
+2400
+);
+
+}
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openGame(id){
+
+clearGame();
+
+currentGame=id;
+
+document.getElementById("modal")
+.classList.add("active");
+
+document.getElementById("gameTitle")
+.textContent=
+games[id][1]+" "+games[id][0];
+
+document.getElementById("score")
+.textContent=0;
+
+document.getElementById("time")
+.textContent="—";
+
+document.getElementById("combo")
+.textContent=0;
+
+document.getElementById("gameArea")
+.innerHTML="";
+
+data.played++;
+
+checkAchievements();
+
+update();
+
+startGame(id);
+
 }
 
 function closeGame(){
 
-    modal.style.display="none";
-    clearInterval(gameTimer);
+clearGame();
+
+document.getElementById("modal")
+.classList.remove("active");
+
 }
 
+function clearGame(){
 
-/* REACTION */
+clearInterval(timer);
+clearTimeout(timeout);
 
-function reactionGame(){
+timer=null;
+timeout=null;
 
-    title.textContent="⚡ Reaction Rush";
-
-    area.innerHTML=`
-        <p>Wacht op GO...</p>
-        <br>
-        <button class="big-button" id="reactionButton">
-            WAIT...
-        </button>
-        <br><br>
-        <p id="reactionText"></p>
-    `;
-
-    const btn=document.getElementById("reactionButton");
-    const text=document.getElementById("reactionText");
-
-    let ready=false;
-    let start=0;
-
-    const delay=1500+Math.random()*3500;
-
-    gameTimer=setTimeout(()=>{
-
-        ready=true;
-        start=Date.now();
-
-        btn.textContent="CLICK NOW!";
-        btn.style.background="#ff008c";
-
-    },delay);
-
-    btn.onclick=()=>{
-
-        if(!ready){
-
-            clearTimeout(gameTimer);
-
-            text.textContent=
-            "Te vroeg! Probeer opnieuw.";
-
-            return;
-        }
-
-        const time=Date.now()-start;
-
-        text.textContent=
-        "🔥 "+time+" ms!";
-
-        btn.textContent="PLAY AGAIN";
-        ready=false;
-    };
 }
 
+/* =========================================================
+   UNIVERSAL RESULT
+========================================================= */
 
-/* MEMORY */
+function result(
+emoji,
+title,
+score,
+message
+){
 
-function memoryGame(){
+clearGame();
 
-    title.textContent="🧠 Memory Matrix";
+finishScore(score);
 
-    area.innerHTML=`
-        <p>Onthoud de opgelichte vakjes.</p>
-        <br>
-        <div class="memory-grid" id="memoryGrid"></div>
-        <br>
-        <p id="memoryText"></p>
-    `;
+document.getElementById("gameArea")
+.innerHTML=`
 
-    const grid=document.getElementById("memoryGrid");
-    const text=document.getElementById("memoryText");
+<div class="result">
 
-    let tiles=[];
+<div class="emoji">${emoji}</div>
 
-    for(let i=0;i<16;i++){
+<h2>${title}</h2>
 
-        const tile=document.createElement("div");
+<div class="score">
+SCORE: ${score}
+</div>
 
-        tile.className="memory-tile";
+<p class="message">
+${message||"Great job!"}
+</p>
 
-        tile.dataset.index=i;
+<button
+class="action"
+onclick="openGame(${currentGame})">
+🔄 PLAY AGAIN
+</button>
 
-        grid.appendChild(tile);
+</div>
 
-        tiles.push(tile);
-    }
+`;
 
-    let sequence=[];
+play(850,.2);
 
-    while(sequence.length<4){
-
-        const n=Math.floor(Math.random()*16);
-
-        if(!sequence.includes(n))
-            sequence.push(n);
-    }
-
-    sequence.forEach(index=>{
-
-        tiles[index].classList.add("active");
-
-    });
-
-    setTimeout(()=>{
-
-        tiles.forEach(t=>
-            t.classList.remove("active")
-        );
-
-    },1200);
-
-    let selected=[];
-
-    tiles.forEach(tile=>{
-
-        tile.onclick=()=>{
-
-            const index=
-            Number(tile.dataset.index);
-
-            if(selected.includes(index)) return;
-
-            selected.push(index);
-
-            tile.classList.add("active");
-
-            if(!sequence.includes(index)){
-
-                text.textContent=
-                "❌ Fout! Probeer opnieuw.";
-
-                return;
-            }
-
-            if(selected.length===sequence.length){
-
-                text.textContent=
-                "🏆 Perfect! Alles goed!";
-            }
-
-        };
-
-    });
 }
 
+/* =========================================================
+   GAME ENGINE
+========================================================= */
 
-/* AIM */
+function startGame(id){
 
-function aimGame(){
+const category=games[id][2];
 
-    title.textContent="🎯 Perfect Aim";
+const type=id%10;
 
-    area.innerHTML=`
-        <p>Klik zoveel mogelijk targets in 20 seconden!</p>
-        <br>
-        <div id="aimTimer">20</div>
-    `;
+if(id===0)return reaction();
+if(id===1)return memory();
+if(id===2)return aim();
+if(id===3)return speed();
+if(id===4)return color();
+if(id===5)return numbers();
+if(id===6)return blocks();
+if(id===7)return coins();
+if(id===8)return runner();
+if(id===9)return boss();
 
-    gameScore=0;
+/* remaining 90 games get their own parameters */
 
-    let time=20;
+if(category==="reflex")
+return reflexVariant(id);
 
-    const timer=document.getElementById("aimTimer");
+if(category==="puzzle")
+return puzzleVariant(id);
 
-    function spawn(){
+if(category==="action")
+return actionVariant(id);
 
-        const old=document.querySelector(".target");
+if(category==="speed")
+return speedVariant(id);
 
-        if(old) old.remove();
+return arcadeVariant(id);
 
-        const target=document.createElement("div");
-
-        target.className="target";
-
-        target.style.left=
-        Math.random()*85+"%";
-
-        target.style.top=
-        50+Math.random()*35+"%";
-
-        target.onclick=()=>{
-
-            gameScore++;
-
-            scoreDisplay.textContent=
-            "Score: "+gameScore;
-
-            spawn();
-        };
-
-        area.appendChild(target);
-    }
-
-    spawn();
-
-    gameTimer=setInterval(()=>{
-
-        time--;
-
-        timer.textContent=time;
-
-        if(time<=0){
-
-            clearInterval(gameTimer);
-
-            const target=document.querySelector(".target");
-
-            if(target) target.remove();
-
-            timer.textContent=
-            "TIME UP! Score: "+gameScore;
-        }
-
-    },1000);
 }
 
+/* =========================================================
+   1 REACTION
+========================================================= */
 
-/* COLOR */
+function reaction(){
 
-function colorGame(){
+const area=document.getElementById("gameArea");
 
-    title.textContent="🟢 Color Match";
+area.innerHTML=`
 
-    const colors=[
-        "red","blue","green","yellow",
-        "purple","orange"
-    ];
+<div class="center">
 
-    let correct=
-    colors[Math.floor(Math.random()*colors.length)];
+<div class="big">⚡</div>
 
-    area.innerHTML=`
-        <p>Find the color:</p>
-        <h2 id="colorName">${correct.toUpperCase()}</h2>
-        <div class="color-box" id="colorBox"></div>
-        <p id="colorResult"></p>
-    `;
+<h2>GET READY</h2>
 
-    const box=document.getElementById("colorBox");
-    const result=document.getElementById("colorResult");
+<p class="message">
+Click when it turns green!
+</p>
 
-    box.style.background=correct;
+<button class="action" id="go">
+START
+</button>
 
-    box.onclick=()=>{
+</div>
+`;
 
-        result.textContent=
-        "🔥 Correct!";
+let waiting=false;
+let start=0;
 
-        gameScore++;
+document.getElementById("go")
+.onclick=()=>{
 
-        scoreDisplay.textContent=
-        "Score: "+gameScore;
+const b=document.getElementById("go");
 
-        colorGame();
-    };
+if(!waiting){
+
+b.textContent="WAIT...";
+b.style.background="#ff3355";
+
+timeout=setTimeout(()=>{
+
+waiting=true;
+
+b.textContent="CLICK NOW!";
+b.style.background="#00ff88";
+
+start=performance.now();
+
+play(1000,.1);
+
+},1000+Math.random()*3000);
+
+}else{
+
+const ms=Math.round(
+performance.now()-start
+);
+
+const score=
+Math.max(10,Math.round(100000/ms));
+
+result(
+"⚡",
+"REACTION!",
+score,
+ms+" milliseconds"
+);
+
 }
 
+};
 
-/* NUMBER */
-
-function numberGame(){
-
-    title.textContent="🔢 Number Rush";
-
-    let numbers=[
-        1,2,3,4,5,6,7,8,
-        9,10,11,12,13,14,15,16
-    ];
-
-    numbers.sort(()=>Math.random()-.5);
-
-    area.innerHTML=`
-        <p>Klik de nummers van 1 tot 16.</p>
-        <br>
-        <div class="number-grid" id="numberGrid"></div>
-        <br>
-        <p id="numberResult"></p>
-    `;
-
-    const grid=document.getElementById("numberGrid");
-    const result=document.getElementById("numberResult");
-
-    let next=1;
-
-    numbers.forEach(n=>{
-
-        const btn=document.createElement("button");
-
-        btn.className="number-button";
-        btn.textContent=n;
-
-        btn.onclick=()=>{
-
-            if(n===next){
-
-                btn.style.opacity=".3";
-                btn.disabled=true;
-
-                next++;
-
-                if(next===17){
-
-                    result.textContent=
-                    "🏆 You completed it!";
-                }
-
-            }else{
-
-                result.textContent=
-                "❌ Wrong number!";
-            }
-
-        };
-
-        grid.appendChild(btn);
-    });
 }
 
+/* =========================================================
+   2 MEMORY
+========================================================= */
 
-/* BLOCKS */
+function memory(){
 
-function blocksGame(){
+const area=document.getElementById("gameArea");
 
-    title.textContent="🧱 Break The Blocks";
+let level=1;
+let score=0;
 
-    area.innerHTML=`
-        <p>Klik alle blokken zo snel mogelijk!</p>
-        <br>
-        <div id="blockGrid"
-        style="
-        display:grid;
-        grid-template-columns:repeat(5,50px);
-        gap:8px;
-        justify-content:center;
-        ">
-        </div>
-        <p id="blockResult"></p>
-    `;
+function round(){
 
-    const grid=document.getElementById("blockGrid");
-    const result=document.getElementById("blockResult");
+area.innerHTML=`
 
-    let remaining=20;
+<div class="center">
 
-    for(let i=0;i<20;i++){
+<h2>MEMORY LEVEL ${level}</h2>
 
-        const block=document.createElement("button");
+<div id="memory"></div>
 
-        block.style.width="50px";
-        block.style.height="50px";
-        block.style.background="#8a00ff";
-        block.style.border="none";
-        block.style.borderRadius="8px";
-        block.style.cursor="pointer";
+<p class="message">
+Watch the glowing squares.
+</p>
 
-        block.onclick=()=>{
+</div>
+`;
 
-            block.remove();
+const grid=document.getElementById("memory");
 
-            remaining--;
+grid.style.display="grid";
+grid.style.gridTemplateColumns="repeat(4,60px)";
+grid.style.gap="8px";
 
-            if(remaining===0){
+const tiles=[];
 
-                result.textContent=
-                "💥 ALL BLOCKS DESTROYED!";
-            }
+for(let i=0;i<16;i++){
 
-        };
+const t=document.createElement("button");
 
-        grid.appendChild(block);
-    }
+t.style.width="60px";
+t.style.height="60px";
+t.style.background="#10101d";
+t.style.border="1px solid #333";
+t.style.borderRadius="8px";
+t.style.cursor="pointer";
+
+t.dataset.i=i;
+
+grid.appendChild(t);
+tiles.push(t);
+
 }
 
+let sequence=[];
 
-/* COINS */
+while(sequence.length<level+2){
 
-function coinsGame(){
+const n=Math.floor(Math.random()*16);
 
-    title.textContent="💎 Coin Collector";
+if(!sequence.includes(n))
+sequence.push(n);
 
-    area.innerHTML=`
-        <p>Verzamel zoveel mogelijk coins!</p>
-        <br>
-        <div id="coinArea"
-        style="height:230px;position:relative;">
-        </div>
-        <p id="coinText">Coins: 0</p>
-    `;
-
-    const coinArea=
-    document.getElementById("coinArea");
-
-    const text=
-    document.getElementById("coinText");
-
-    let coins=0;
-
-    function spawnCoin(){
-
-        const coin=document.createElement("div");
-
-        coin.textContent="💎";
-
-        coin.style.position="absolute";
-        coin.style.fontSize="35px";
-        coin.style.cursor="pointer";
-
-        coin.style.left=
-        Math.random()*85+"%";
-
-        coin.style.top=
-        Math.random()*80+"%";
-
-        coin.onclick=()=>{
-
-            coins++;
-
-            text.textContent=
-            "Coins: "+coins;
-
-            coin.remove();
-
-            spawnCoin();
-        };
-
-        coinArea.appendChild(coin);
-    }
-
-    for(let i=0;i<5;i++)
-        spawnCoin();
 }
 
+sequence.forEach((n,i)=>{
 
-/* RUNNER */
+setTimeout(()=>{
 
-function runnerGame(){
+tiles[n].style.background="#00ffff";
+tiles[n].style.boxShadow="0 0 20px #00ffff";
 
-    title.textContent="🏃 Endless Runner";
+setTimeout(()=>{
 
-    area.innerHTML=`
-        <p>Druk op SPACE om te springen!</p>
+tiles[n].style.background="#10101d";
+tiles[n].style.boxShadow="none";
 
-        <div style="
-        height:220px;
-        position:relative;
-        overflow:hidden;
-        background:#09091b;
-        margin-top:15px;
-        " id="runnerArea">
+},350);
 
-            <div class="runner" id="runner"></div>
-
-        </div>
-
-        <p id="runnerText">
-        Score: 0
-        </p>
-    `;
-
-    const runner=
-    document.getElementById("runner");
-
-    const runnerArea=
-    document.getElementById("runnerArea");
-
-    const text=
-    document.getElementById("runnerText");
-
-    let jumping=false;
-    let score=0;
-    let gameOver=false;
-
-    function jump(){
-
-        if(jumping || gameOver) return;
-
-        jumping=true;
-
-        runner.style.bottom="120px";
-
-        setTimeout(()=>{
-
-            runner.style.bottom="20px";
-
-            setTimeout(()=>{
-                jumping=false;
-            },250);
-
-        },400);
-    }
-
-    document.onkeydown=e=>{
-
-        if(e.code==="Space")
-            jump();
-    };
-
-    gameTimer=setInterval(()=>{
-
-        if(gameOver) return;
-
-        const obstacle=
-        document.createElement("div");
-
-        obstacle.className=
-        "runner-obstacle";
-
-        runnerArea.appendChild(obstacle);
-
-        let position=
-        runnerArea.clientWidth;
-
-        const move=
-        setInterval(()=>{
-
-            position-=7;
-
-            obstacle.style.right=
-            (runnerArea.clientWidth-position)+"px";
-
-            const r=
-            runner.getBoundingClientRect();
-
-            const o=
-            obstacle.getBoundingClientRect();
-
-            if(
-                r.left<o.right &&
-                r.right>o.left &&
-                r.top<o.bottom &&
-                r.bottom>o.top
-            ){
-
-                clearInterval(move);
-
-                gameOver=true;
-
-                text.textContent=
-                "💥 GAME OVER! Score: "+score;
-            }
-
-            if(position<-60){
-
-                clearInterval(move);
-
-                obstacle.remove();
-
-                score++;
-
-                text.textContent=
-                "Score: "+score;
-            }
-
-        },30);
-
-    },1300);
-}
-
-
-/* BOSS */
-
-function bossGame(){
-
-    title.textContent="👑 Boss Challenge";
-
-    area.innerHTML=`
-        <h2>👑 BOSS HP</h2>
-
-        <div style="
-        width:80%;
-        height:25px;
-        background:#222;
-        margin:20px auto;
-        border-radius:20px;
-        overflow:hidden;
-        ">
-
-            <div id="bossHP"
-            style="
-            width:100%;
-            height:100%;
-            background:#ff0055;
-            transition:.2s;
-            ">
-            </div>
-
-        </div>
-
-        <button class="big-button" id="attackButton">
-            ⚔️ ATTACK
-        </button>
-
-        <p id="bossText">
-        Defeat the boss!
-        </p>
-    `;
-
-    let hp=100;
-
-    const hpBar=
-    document.getElementById("bossHP");
-
-    const attack=
-    document.getElementById("attackButton");
-
-    const text=
-    document.getElementById("bossText");
-
-    attack.onclick=()=>{
-
-        hp-=10;
-
-        hpBar.style.width=
-        hp+"%";
-
-        if(hp<=0){
-
-            hp=0;
-
-            text.textContent=
-            "👑 BOSS DEFEATED! YOU WIN!";
-
-            attack.disabled=true;
-
-        }else{
-
-            text.textContent=
-            "⚔️ Boss HP: "+hp;
-        }
-
-    };
-}
-
-
-/* CLOSE WHEN CLICKING OUTSIDE */
-
-modal.addEventListener("click",e=>{
-
-    if(e.target===modal)
-        closeGame();
+},600+i*450);
 
 });
+
+let index=0;
+
+tiles.forEach(t=>{
+
+t.onclick=()=>{
+
+const n=Number(t.dataset.i);
+
+if(n===sequence[index]){
+
+t.style.background="#00ff88";
+index++;
+hit();
+play(700,.05);
+
+if(index===sequence.length){
+
+score+=level*30;
+
+document.getElementById("score")
+.textContent=score;
+
+level++;
+
+if(level>6){
+
+result(
+"🧠",
+"MEMORY MASTER!",
+score,
+"You completed all levels."
+);
+
+}else{
+
+setTimeout(round,500);
+
+}
+
+}
+
+}else{
+
+miss();
+
+result(
+"💥",
+"MEMORY FAILED",
+score,
+"Reached level "+level
+);
+
+}
+
+};
+
+});
+
+}
+
+round();
+
+}
+
+/* =========================================================
+   3 AIM
+========================================================= */
+
+function aim(){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let time=20;
+
+function spawn(){
+
+const t=document.createElement("div");
+
+t.className="target";
+
+t.style.left=
+Math.random()*(area.clientWidth-70)+"px";
+
+t.style.top=
+Math.random()*(area.clientHeight-70)+"px";
+
+t.onclick=()=>{
+
+score+=10+data.combo;
+
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+play(800,.05);
+
+t.remove();
+
+spawn();
+
+};
+
+area.appendChild(t);
+
+}
+
+spawn();
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0){
+
+result(
+"🎯",
+"TIME!",
+score,
+"Targets destroyed!"
+);
+
+}
+
+},1000);
+
+}
+
+/* =========================================================
+   4 SPEED
+========================================================= */
+
+function speed(){
+
+const area=document.getElementById("gameArea");
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>💨 CHECKPOINT RUSH</h2>
+
+<p class="message">
+Click the target as many times as possible.
+</p>
+
+<div id="speedTarget" class="target"></div>
+
+</div>
+`;
+
+let score=0;
+let time=20;
+
+const target=document.getElementById("speedTarget");
+
+function move(){
+
+target.style.left=
+Math.random()*(area.clientWidth-70)+"px";
+
+target.style.top=
+Math.random()*(area.clientHeight-70)+"px";
+
+}
+
+target.onclick=()=>{
+
+score+=10;
+
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+move();
+
+play(850,.04);
+
+};
+
+move();
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0)
+result("💨","FINISH!",score);
+
+},1000);
+
+}
+
+/* =========================================================
+   5 COLOR
+========================================================= */
+
+function color(){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let time=25;
+
+const colors=[
+["RED","#ff3355"],
+["BLUE","#3388ff"],
+["GREEN","#33ff88"],
+["PURPLE","#cc44ff"]
+];
+
+function round(){
+
+const correct=
+colors[Math.floor(Math.random()*4)];
+
+const shuffled=
+[...colors].sort(()=>Math.random()-.5);
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>CLICK ${correct[0]}</h2>
+
+<div style="
+width:160px;
+height:160px;
+border-radius:25px;
+background:${correct[1]};
+box-shadow:0 0 35px ${correct[1]};
+margin:25px">
+</div>
+
+<div id="choices"></div>
+
+</div>
+`;
+
+const choices=document.getElementById("choices");
+
+choices.style.display="grid";
+choices.style.gridTemplateColumns="repeat(2,120px)";
+choices.style.gap="10px";
+
+shuffled.forEach(c=>{
+
+const b=document.createElement("button");
+
+b.textContent=c[0];
+
+b.style.padding="12px";
+b.style.border="0";
+b.style.borderRadius="9px";
+b.style.background=c[1];
+b.style.color="white";
+b.style.cursor="pointer";
+
+b.onclick=()=>{
+
+if(c[0]===correct[0]){
+
+score+=15;
+
+hit();
+
+play(800,.05);
+
+}else{
+
+score=Math.max(0,score-5);
+
+miss();
+
+play(150,.1);
+
+}
+
+document.getElementById("score")
+.textContent=score;
+
+round();
+
+};
+
+choices.appendChild(b);
+
+});
+
+}
+
+round();
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0)
+result("🌈","COLOR MASTER!",score);
+
+},1000);
+
+}
+
+/* =========================================================
+   6 NUMBERS
+========================================================= */
+
+function numbers(){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let next=1;
+let time=25;
+
+function render(){
+
+const nums=
+Array.from({length:16},(_,i)=>i+1)
+.sort(()=>Math.random()-.5);
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>CLICK ${next}</h2>
+
+<div id="numbers"></div>
+
+</div>
+`;
+
+const grid=document.getElementById("numbers");
+
+grid.style.display="grid";
+grid.style.gridTemplateColumns="repeat(4,65px)";
+grid.style.gap="7px";
+
+nums.forEach(n=>{
+
+const b=document.createElement("button");
+
+b.textContent=n;
+
+b.style.width="65px";
+b.style.height="65px";
+b.style.background="#10101d";
+b.style.color="white";
+b.style.border="1px solid #333";
+b.style.borderRadius="8px";
+b.style.cursor="pointer";
+
+b.onclick=()=>{
+
+if(n===next){
+
+score+=10;
+
+hit();
+
+next++;
+
+b.style.background="#00ff88";
+
+if(next>16){
+
+next=1;
+
+setTimeout(render,200);
+
+}
+
+}else{
+
+score=Math.max(0,score-5);
+miss();
+
+}
+
+document.getElementById("score")
+.textContent=score;
+
+};
+
+grid.appendChild(b);
+
+});
+
+}
+
+render();
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0)
+result("🔢","TIME!",score);
+
+},1000);
+
+}
+
+/* =========================================================
+   7 BLOCKS
+========================================================= */
+
+function blocks(){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let wave=1;
+
+function create(){
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>WAVE ${wave}</h2>
+
+<div id="blocks"></div>
+
+</div>
+`;
+
+const grid=document.getElementById("blocks");
+
+grid.style.display="grid";
+grid.style.gridTemplateColumns="repeat(5,50px)";
+grid.style.gap="8px";
+
+const amount=Math.min(20+wave*3,40);
+
+for(let i=0;i<amount;i++){
+
+const b=document.createElement("button");
+
+b.className="square";
+
+b.style.position="relative";
+b.style.width="50px";
+b.style.height="50px";
+
+b.onclick=()=>{
+
+if(b.dataset.hit)return;
+
+b.dataset.hit="1";
+
+b.style.transform="scale(0)";
+b.style.opacity="0";
+
+score+=5;
+
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+if(
+grid.querySelectorAll(
+"[data-hit]"
+).length===amount
+){
+
+wave++;
+
+if(wave>5){
+
+result(
+"🧱",
+"BLOCK MASTER!",
+score
+);
+
+}else{
+
+setTimeout(create,400);
+
+}
+
+}
+
+};
+
+grid.appendChild(b);
+
+}
+
+}
+
+create();
+
+}
+
+/* =========================================================
+   8 COINS
+========================================================= */
+
+function coins(){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let time=30;
+
+area.innerHTML=`
+<div class="message" style="
+position:absolute;
+top:20px;
+left:20px">
+💎 COLLECT EVERYTHING!
+</div>
+`;
+
+function spawn(){
+
+const c=document.createElement("div");
+
+c.className="coin";
+c.textContent="💎";
+
+c.style.left=
+Math.random()*(area.clientWidth-60)+"px";
+
+c.style.top=
+50+Math.random()*(area.clientHeight-110)+"px";
+
+c.onclick=()=>{
+
+score+=10+data.combo;
+
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+c.remove();
+
+spawn();
+
+};
+
+area.appendChild(c);
+
+}
+
+for(let i=0;i<5;i++)
+spawn();
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0)
+result("💎","COLLECTED!",score);
+
+},1000);
+
+}
+
+/* =========================================================
+   9 RUNNER
+========================================================= */
+
+function runner(){
+
+const area=document.getElementById("gameArea");
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>🏃 ENDLESS RUNNER</h2>
+
+<p class="message">
+Press SPACE or tap the screen to jump.
+</p>
+
+<div id="runner"
+style="
+position:relative;
+width:90%;
+height:250px;
+border-bottom:4px solid #00ffff;
+overflow:hidden;
+margin-top:20px">
+
+<div id="player"
+style="
+position:absolute;
+bottom:4px;
+left:40px;
+width:40px;
+height:55px;
+background:#00ffff;
+box-shadow:0 0 25px #00ffff;
+border-radius:8px">
+</div>
+
+</div>
+
+</div>
+`;
+
+const player=document.getElementById("player");
+const runnerBox=document.getElementById("runner");
+
+let jumping=false;
+let height=0;
+let alive=true;
+let seconds=0;
+let score=0;
+
+function jump(){
+
+if(jumping||!alive)return;
+
+jumping=true;
+
+let up=true;
+
+const j=setInterval(()=>{
+
+if(up){
+
+height+=8;
+
+if(height>=110)
+up=false;
+
+}else{
+
+height-=8;
+
+if(height<=0){
+
+height=0;
+jumping=false;
+clearInterval(j);
+
+}
+
+}
+
+player.style.bottom=
+(4+height)+"px";
+
+},20);
+
+}
+
+document.onkeydown=e=>{
+if(e.code==="Space"){
+e.preventDefault();
+jump();
+}
+};
+
+runnerBox.onclick=jump;
+
+function obstacle(){
+
+if(!alive)return;
+
+const o=document.createElement("div");
+
+o.style.position="absolute";
+o.style.bottom="4px";
+o.style.left=
+runnerBox.clientWidth+"px";
+o.style.width="30px";
+o.style.height="45px";
+o.style.background="#ff3355";
+o.style.boxShadow="0 0 20px #ff3355";
+o.style.borderRadius="5px";
+
+runnerBox.appendChild(o);
+
+let x=runnerBox.clientWidth;
+
+const move=setInterval(()=>{
+
+if(!alive){
+
+clearInterval(move);
+return;
+
+}
+
+x-=6;
+
+o.style.left=x+"px";
+
+const a=player.getBoundingClientRect();
+const b=o.getBoundingClientRect();
+
+if(
+a.right>b.left &&
+a.left<b.right &&
+a.bottom>b.top &&
+a.top<b.bottom
+){
+
+alive=false;
+
+clearInterval(move);
+
+result(
+"💥",
+"GAME OVER",
+score,
+"You survived "+seconds+" seconds."
+);
+
+}
+
+if(x<-40){
+
+clearInterval(move);
+o.remove();
+
+score+=10;
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+}
+
+},20);
+
+setTimeout(
+obstacle,
+Math.max(700,1600-seconds*20)
+);
+
+}
+
+obstacle();
+
+timer=setInterval(()=>{
+
+if(!alive)return;
+
+seconds++;
+score+=2;
+
+document.getElementById("time")
+.textContent=seconds;
+
+document.getElementById("score")
+.textContent=score;
+
+},1000);
+
+}
+
+/* =========================================================
+   10 BOSS
+========================================================= */
+
+function boss(){
+
+const area=document.getElementById("gameArea");
+
+let hp=100;
+let phase=1;
+let score=0;
+
+function render(){
+
+area.innerHTML=`
+
+<div class="center">
+
+<div style="
+font-size:110px;
+filter:drop-shadow(0 0 30px #ff00ff)">
+${phase===1?"👾":phase===2?"👹":"☠️"}
+</div>
+
+<h2>BOSS PHASE ${phase}</h2>
+
+<div style="
+width:350px;
+max-width:90%;
+height:20px;
+border:1px solid #555;
+border-radius:20px;
+overflow:hidden;
+margin:20px">
+
+<div style="
+height:100%;
+width:${hp}%;
+background:linear-gradient(90deg,#ff3355,#ff00ff)">
+</div>
+
+</div>
+
+<p class="message">
+HP ${hp}/100
+</p>
+
+<button class="action" id="attack">
+⚔️ ATTACK
+</button>
+
+</div>
+`;
+
+document.getElementById("attack")
+.onclick=()=>{
+
+const damage=
+7+Math.floor(Math.random()*12);
+
+hp-=damage;
+score+=damage*2;
+
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+play(300,.08);
+
+if(hp<=0){
+
+if(phase<3){
+
+phase++;
+hp=100;
+
+toast("🔥 PHASE "+phase);
+
+render();
+
+}else{
+
+result(
+"🏆",
+"BOSS DEFEATED!",
+score,
+"You defeated the final boss!"
+);
+
+}
+
+}else{
+
+render();
+
+}
+
+};
+
+}
+
+render();
+
+}
+
+/* =========================================================
+   GENERIC REFLEX GAMES
+========================================================= */
+
+function reflexVariant(id){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let time=20;
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>${games[id][1]} ${games[id][0]}</h2>
+
+<p class="message">
+Hit the glowing target!
+</p>
+
+</div>
+`;
+
+function spawn(){
+
+if(time<=0)return;
+
+const t=document.createElement("div");
+
+t.className="target";
+
+t.style.width=(40+id%4*8)+"px";
+t.style.height=(40+id%4*8)+"px";
+
+t.style.left=
+Math.random()*(area.clientWidth-80)+"px";
+
+t.style.top=
+Math.random()*(area.clientHeight-80)+"px";
+
+t.onclick=()=>{
+
+score+=5+(id%7);
+
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+play(600+id*5,.04);
+
+t.remove();
+
+spawn();
+
+};
+
+area.appendChild(t);
+
+}
+
+spawn();
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0)
+result(
+games[id][1],
+"COMPLETE!",
+score
+);
+
+},1000);
+
+}
+
+/* =========================================================
+   GENERIC PUZZLE GAMES
+========================================================= */
+
+function puzzleVariant(id){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let rounds=0;
+let time=30;
+
+function round(){
+
+rounds++;
+
+const answer=
+Math.floor(Math.random()*4);
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>${games[id][1]} ${games[id][0]}</h2>
+
+<p class="message">
+Choose the glowing answer: ${answer+1}
+</p>
+
+<div id="puzzleChoices"></div>
+
+</div>
+`;
+
+const box=
+document.getElementById("puzzleChoices");
+
+box.style.display="grid";
+box.style.gridTemplateColumns="repeat(2,90px)";
+box.style.gap="10px";
+
+for(let i=0;i<4;i++){
+
+const b=document.createElement("button");
+
+b.textContent=i+1;
+
+b.style.width="90px";
+b.style.height="70px";
+b.style.borderRadius="10px";
+b.style.border="1px solid #333";
+b.style.background=
+i===answer?"#00ffff":"#10101d";
+b.style.color=
+i===answer?"#001010":"white";
+b.style.cursor="pointer";
+
+b.onclick=()=>{
+
+if(i===answer){
+
+score+=15;
+
+hit();
+
+play(800,.05);
+
+}else{
+
+score=Math.max(0,score-5);
+
+miss();
+
+}
+
+document.getElementById("score")
+.textContent=score;
+
+if(rounds<10)
+round();
+else
+result(
+games[id][1],
+"PUZZLE COMPLETE!",
+score
+);
+
+};
+
+box.appendChild(b);
+
+}
+
+}
+
+round();
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0)
+result(
+games[id][1],
+"TIME!",
+score
+);
+
+},1000);
+
+}
+
+/* =========================================================
+   GENERIC ACTION GAMES
+========================================================= */
+
+function actionVariant(id){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let time=25;
+let lives=3;
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>${games[id][1]} ${games[id][0]}</h2>
+
+<p class="message">
+Survive and destroy targets.
+Lives: <span id="lives">3</span>
+</p>
+
+</div>
+`;
+
+function spawn(){
+
+if(time<=0)return;
+
+const danger=Math.random()<.25;
+
+const obj=document.createElement("div");
+
+obj.className="target";
+
+if(danger)
+obj.classList.add("danger");
+
+obj.style.left=
+Math.random()*(area.clientWidth-70)+"px";
+
+obj.style.top=
+Math.random()*(area.clientHeight-70)+"px";
+
+obj.onclick=()=>{
+
+if(danger){
+
+lives--;
+
+document.getElementById("lives")
+.textContent=lives;
+
+miss();
+
+play(150,.12);
+
+obj.remove();
+
+if(lives<=0){
+
+result(
+"💥",
+"GAME OVER",
+score
+);
+
+}
+
+return;
+
+}
+
+score+=10;
+
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+play(750,.05);
+
+obj.remove();
+
+spawn();
+
+};
+
+area.appendChild(obj);
+
+setTimeout(()=>{
+
+if(obj.isConnected){
+
+obj.remove();
+
+if(danger){
+
+lives--;
+
+document.getElementById("lives")
+.textContent=lives;
+
+}
+
+spawn();
+
+}
+
+},1200);
+
+}
+
+for(let i=0;i<3;i++)
+spawn();
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0)
+result(
+games[id][1],
+"YOU SURVIVED!",
+score
+);
+
+},1000);
+
+}
+
+/* =========================================================
+   GENERIC SPEED GAMES
+========================================================= */
+
+function speedVariant(id){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let time=20;
+let clicks=0;
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>${games[id][1]} ${games[id][0]}</h2>
+
+<p class="message">
+Click the target repeatedly!
+</p>
+
+<button
+id="speedButton"
+class="action"
+style="font-size:25px">
+⚡ TAP
+</button>
+
+</div>
+`;
+
+const button=
+document.getElementById("speedButton");
+
+button.onclick=()=>{
+
+clicks++;
+
+score+=5+(id%5);
+
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+button.style.transform=
+"scale(1.1)";
+
+setTimeout(
+()=>button.style.transform="scale(1)",
+80
+);
+
+play(500+clicks*4,.03);
+
+};
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0){
+
+result(
+games[id][1],
+"SPEED COMPLETE!",
+score,
+"You clicked "+clicks+" times."
+);
+
+}
+
+},1000);
+
+}
+
+/* =========================================================
+   GENERIC ARCADE GAMES
+========================================================= */
+
+function arcadeVariant(id){
+
+const area=document.getElementById("gameArea");
+
+let score=0;
+let time=25;
+
+area.innerHTML=`
+
+<div class="center">
+
+<h2>${games[id][1]} ${games[id][0]}</h2>
+
+<p class="message">
+Collect as many glowing objects as possible!
+</p>
+
+</div>
+`;
+
+function spawn(){
+
+if(time<=0)return;
+
+const obj=document.createElement("div");
+
+obj.className=
+id%2===0?"coin":"square";
+
+if(id%3===0)
+obj.textContent="⭐";
+
+obj.style.left=
+Math.random()*(area.clientWidth-65)+"px";
+
+obj.style.top=
+50+Math.random()*(area.clientHeight-110)+"px";
+
+obj.onclick=()=>{
+
+score+=10+(id%6);
+
+hit();
+
+document.getElementById("score")
+.textContent=score;
+
+play(650+id*3,.04);
+
+obj.remove();
+
+spawn();
+
+};
+
+area.appendChild(obj);
+
+setTimeout(()=>{
+
+if(obj.isConnected){
+
+obj.remove();
+spawn();
+
+}
+
+},1400);
+
+}
+
+for(let i=0;i<4;i++)
+spawn();
+
+document.getElementById("time")
+.textContent=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("time")
+.textContent=time;
+
+if(time<=0)
+result(
+games[id][1],
+"ROUND COMPLETE!",
+score
+);
+
+},1000);
+
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function scrollGames(){
+
+document.getElementById("games")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function scrollStats(){
+
+document.getElementById("stats")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+toast(
+"⭐ LEVEL "+
+(Math.floor(data.xp/100)+1)+
+" • "+
+data.xp+
+" XP"
+);
+
+}
+
+/* =========================================================
+   MODAL CONTROLS
+========================================================= */
+
+document.addEventListener("keydown",e=>{
+
+if(e.key==="Escape")
+closeGame();
+
+});
+
+document.getElementById("modal")
+.addEventListener("click",e=>{
+
+if(e.target.id==="modal")
+closeGame();
+
+});
+
+/* =========================================================
+   START
+========================================================= */
+
+update();
+
+checkAchievements();
+
+renderAchievements();
 
 </script>
 
 </body>
 </html>
-```
